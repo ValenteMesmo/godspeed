@@ -32,7 +32,7 @@ namespace Godspeed
         private Texture2D skull;
         private Texture2D btn;
         private List<AnimationPart> Rectangles = new List<AnimationPart>() { new AnimationPart(0, 0, 200, 200) };
-        Button btnArea = new Button(100, 100, 200, 200);
+        Button btnArea = new Button(200, 0, 50, 50);
         private List<AnimationPart> RectanglesDragged = new List<AnimationPart>();
 
         public Game1()
@@ -51,7 +51,7 @@ namespace Godspeed
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             skull = Content.Load<Texture2D>("skull");
-            //btn = Content.Load<Texture2D>("btn");
+            btn = Content.Load<Texture2D>("btn");
         }
 
         protected override void UnloadContent()
@@ -65,18 +65,7 @@ namespace Godspeed
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
                 || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            /*
-             obter estado do mouse
-             se estiver segurando um sprite
-                simplemente move
-             se nao
-                verificar todos os botoes
-                se nao tiver apertando botao
-                    verificar todos os sprites
-                    comecar a carregar um sprite
-            */
-
+            
             var mouseState = Mouse.GetState();
             mousePosition = new Rectangle(mouseState.Position, new Point(1, 1));
             isPressed = mouseState.LeftButton == ButtonState.Pressed;
@@ -91,22 +80,42 @@ namespace Godspeed
 
         private void ClicarEmAlgoNovo()
         {
+            if (isPressed == false)
+                return;
+
             foreach (var item in Rectangles)
             {
                 if (item.Rectangle.Intersects(mousePosition)
                     && RectanglesDragged.Contains(item) == false)
+                {
                     RectanglesDragged.Add(item);
+                    break;
+                }
+            }
+
+            if (RectanglesDragged.Any() == false )
+            {
+                if (btnArea.Rectangle.Contains(mousePosition))
+                {
+                    var newOne = new AnimationPart(mousePosition.X, mousePosition.Y, 200, 200);
+                    Rectangles.Add(newOne);
+                    RectanglesDragged.Add(newOne);
+                }
             }
         }
 
         private void ArrastarSpriteSegurado()
         {
-            if ( isPressed == false)
+            if (isPressed == false)
                 RectanglesDragged.Clear();
-             if (isPressed == true)
+            if (isPressed == true)
                 foreach (var item in RectanglesDragged)
                 {
-                    item.Rectangle = new Rectangle(mousePosition.X - item.Rectangle.Width / 2, mousePosition.Y - item.Rectangle.Height / 2, item.Rectangle.Width, item.Rectangle.Height);
+                    item.Rectangle = new Rectangle(
+                        mousePosition.X - item.Rectangle.Width / 2
+                        , mousePosition.Y - item.Rectangle.Height / 2
+                        , item.Rectangle.Width
+                        , item.Rectangle.Height);
                 }
         }
 
@@ -115,12 +124,12 @@ namespace Godspeed
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            //spriteBatch.Draw(
-            //      btn
-            //      , btnArea
-            //      , null
-            //      , Color.White
-            //);
+            spriteBatch.Draw(
+                  btn
+                  , btnArea.Rectangle
+                  , null
+                  , Color.White
+            );
 
             foreach (var item in Rectangles)
             {
