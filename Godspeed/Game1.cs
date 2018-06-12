@@ -31,7 +31,7 @@ namespace Godspeed
         SpriteBatch spriteBatch;
         private Texture2D skull;
         private Texture2D btn;
-        private List<AnimationPart> Rectangles = new List<AnimationPart>() { new AnimationPart(0,0,200,200)};
+        private List<AnimationPart> Rectangles = new List<AnimationPart>() { new AnimationPart(0, 0, 200, 200) };
         Button btnArea = new Button(100, 100, 200, 200);
         private List<AnimationPart> RectanglesDragged = new List<AnimationPart>();
 
@@ -58,7 +58,6 @@ namespace Godspeed
         {
         }
 
-        private bool wasPressed = false;
         private bool isPressed = false;
         private Rectangle mousePosition;
         protected override void Update(GameTime gameTime)
@@ -87,7 +86,6 @@ namespace Godspeed
             else
                 ClicarEmAlgoNovo();
 
-            wasPressed = isPressed;
             base.Update(gameTime);
         }
 
@@ -95,7 +93,7 @@ namespace Godspeed
         {
             foreach (var item in Rectangles)
             {
-                if (item.Rectangle.Intersects(mousePosition) 
+                if (item.Rectangle.Intersects(mousePosition)
                     && RectanglesDragged.Contains(item) == false)
                     RectanglesDragged.Add(item);
             }
@@ -103,13 +101,12 @@ namespace Godspeed
 
         private void ArrastarSpriteSegurado()
         {
-            if (wasPressed == true
-                && isPressed == false)
+            if ( isPressed == false)
                 RectanglesDragged.Clear();
-            else if (isPressed)
+             if (isPressed == true)
                 foreach (var item in RectanglesDragged)
                 {
-                    item.Rectangle = new Rectangle(mousePosition.X - item.Rectangle.Width/2, mousePosition.Y - item.Rectangle.Height / 2, item.Rectangle.Width, item.Rectangle.Height);
+                    item.Rectangle = new Rectangle(mousePosition.X - item.Rectangle.Width / 2, mousePosition.Y - item.Rectangle.Height / 2, item.Rectangle.Width, item.Rectangle.Height);
                 }
         }
 
