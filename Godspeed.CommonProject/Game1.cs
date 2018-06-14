@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Godspeed.CommonProject;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -36,11 +38,14 @@ namespace Godspeed
         private List<AnimationPart> Rectangles = new List<AnimationPart>() { new AnimationPart(0, 0, 200, 200) };
         Button btnArea = new Button(200, 0, 50, 50);
         private List<AnimationPart> RectanglesDragged = new List<AnimationPart>();
+        private readonly Camera2d Camera2d;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            this.Camera2d = new Camera2d();
+            //Camera2d.Zoom = 
         }
 
         protected override void Initialize()
@@ -62,6 +67,7 @@ namespace Godspeed
 
         private bool isPressed = false;
         private Rectangle mousePosition;
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
@@ -69,14 +75,22 @@ namespace Godspeed
                 Exit();
             
             var mouseState = Mouse.GetState();
-            mousePosition = new Rectangle(mouseState.Position, new Point(1, 1));
+            mousePosition = new Rectangle(Camera2d.ToWorldLocation( mouseState.Position.ToVector2()).ToPoint(), new Point(1, 1));
             isPressed = mouseState.LeftButton == ButtonState.Pressed;
+
+            var touch = TouchPanel.GetState();
+            if (touch.Any())
+            {
+                mousePosition = new Rectangle(Camera2d.ToWorldLocation(touch[0].Position).ToPoint(), new Point(1, 1));
+                isPressed = true;
+            }
 
             if (RectanglesDragged.Any())
                 ArrastarSpriteSegurado();
             else
                 ClicarEmAlgoNovo();
 
+            Camera2d.Update();
             base.Update(gameTime);
         }
 
@@ -125,7 +139,13 @@ namespace Godspeed
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin( SpriteSortMode.Immediate);
+            spriteBatch.Begin(SpriteSortMode.BackToFront,
+                 BlendState.AlphaBlend,
+                 null,
+                 null,
+                 null,
+                 null,
+                 Camera2d.GetTransformation(GraphicsDevice));
 
             spriteBatch.Draw(
                   btn

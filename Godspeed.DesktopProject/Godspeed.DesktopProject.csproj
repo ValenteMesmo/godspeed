@@ -101,9 +101,9 @@
       <Link>MonoGame.Framework.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="..\SharedProject\Content\ContentDesktop.mgcb">
+    <MonoGameContentReference Include="..\SharedProject\Content\ContentDesktop.mgcb">
       <Link>Content\ContentDesktop.mgcb</Link>
-    </None>
+    </MonoGameContentReference>
     <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>

@@ -63,9 +63,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\SharedProject\Content\ContentAndroid.mgcb">
+    <MonoGameContentReference Include="..\SharedProject\Content\ContentAndroid.mgcb">
       <Link>Content\ContentAndroid.mgcb</Link>
-    </None>
+    </MonoGameContentReference>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
