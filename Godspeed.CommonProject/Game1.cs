@@ -3,8 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
+//sempre modo portrait
+//obter rotacao para decidir como renderizar
+//https://stackoverflow.com/questions/3674933/find-out-if-android-device-is-portrait-or-landscape-for-normal-usage
 namespace Godspeed
 {
     public class Button
@@ -83,10 +85,11 @@ namespace Godspeed
             if (isPressed == false)
                 return;
 
-            foreach (var item in Rectangles)
+            for (int i = Rectangles.Count-1; i >= 0; i--)
             {
+                var item = Rectangles[i];
                 if (item.Rectangle.Intersects(mousePosition)
-                    && RectanglesDragged.Contains(item) == false)
+                   && RectanglesDragged.Contains(item) == false)
                 {
                     RectanglesDragged.Add(item);
                     break;
@@ -122,7 +125,7 @@ namespace Godspeed
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
+            spriteBatch.Begin( SpriteSortMode.Immediate);
 
             spriteBatch.Draw(
                   btn
