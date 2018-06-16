@@ -5,12 +5,36 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 //sempre modo portrait
 //obter rotacao para decidir como renderizar
 //https://stackoverflow.com/questions/3674933/find-out-if-android-device-is-portrait-or-landscape-for-normal-usage
 namespace Godspeed
 {
+    public interface Draggable : Touchable { }
+    public interface Touchable
+    {
+        Rectangle Area { get; }
+        void Update(IEnumerable<Vector2> touches);
+    }
+
+    public struct MyStruct : Draggable
+    {
+        public Rectangle Area { get; set; }
+
+        public void Update(IEnumerable<Vector2> touches)
+        {
+            foreach (var touch in touches)
+            {
+                if (Area.Contains(touch))
+                {
+
+                }
+            }
+        }
+    }
+
     public class Button
     {
         public Button(int x, int y, int w, int h)
@@ -77,9 +101,9 @@ namespace Godspeed
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
                 || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
+
             var mouseState = Mouse.GetState();
-            mousePosition = new Rectangle(Camera2d.ToWorldLocation( mouseState.Position.ToVector2()).ToPoint(), new Point(1, 1));
+            mousePosition = new Rectangle(Camera2d.ToWorldLocation(mouseState.Position.ToVector2()).ToPoint(), new Point(1, 1));
             isPressed = mouseState.LeftButton == ButtonState.Pressed;
 
             var touch = TouchPanel.GetState();
@@ -103,7 +127,7 @@ namespace Godspeed
             if (isPressed == false)
                 return;
 
-            for (int i = Rectangles.Count-1; i >= 0; i--)
+            for (int i = Rectangles.Count - 1; i >= 0; i--)
             {
                 var item = Rectangles[i];
                 if (item.Rectangle.Intersects(mousePosition)
@@ -114,7 +138,7 @@ namespace Godspeed
                 }
             }
 
-            if (RectanglesDragged.Any() == false )
+            if (RectanglesDragged.Any() == false)
             {
                 if (btnArea.Rectangle.Contains(mousePosition))
                 {
