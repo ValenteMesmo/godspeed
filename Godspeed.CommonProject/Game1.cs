@@ -28,7 +28,10 @@ namespace Godspeed
         }
         public Rectangle Rectangle;
     }
-
+    //touch begin
+    //touch end
+    //drag start (vector2)
+    //drag end (vector2)
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -37,6 +40,7 @@ namespace Godspeed
         private Texture2D btn;
         private List<AnimationPart> Rectangles = new List<AnimationPart>() { new AnimationPart(0, 0, 200, 200) };
         Button btnArea = new Button(200, 0, 50, 50);
+        Button trashCan = new Button(-500, 200, 150, 150);
         private List<AnimationPart> RectanglesDragged = new List<AnimationPart>();
         private readonly Camera2d Camera2d;
 
@@ -153,7 +157,13 @@ namespace Godspeed
                   , null
                   , Color.White
             );
-
+            spriteBatch.Draw(
+                 btn
+                 ,
+                trashCan.Rectangle
+                 , null
+                 , Color.White
+           );
             foreach (var item in Rectangles)
             {
                 spriteBatch.Draw(
