@@ -77,7 +77,15 @@ namespace Godspeed.CommonProject
             );
         }
 
-        public Vector2 ToLocalLocation(Vector2 position)
+        public Point ToWorldLocation(Point position)
+        {
+            return Vector2.Transform(
+                position.ToVector2()
+                , Matrix.Invert(Transform)
+            ).ToPoint();
+        }
+
+        public Vector2 ToScreenLocation(Vector2 position)
         {
             return Vector2.Transform(position, Transform);
         }

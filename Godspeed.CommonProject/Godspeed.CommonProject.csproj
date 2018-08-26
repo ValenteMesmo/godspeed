@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,7 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Camera2d.cs" />
+    <Compile Include="Services\Camera2d.cs" />
+    <Compile Include="Extensions\FloatExtensions.cs" />
+    <Compile Include="Services\Texture2DEditor.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
