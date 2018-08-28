@@ -17,8 +17,8 @@ namespace Godspeed
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Camera2d = new Camera2d();
-            Camera2d.Zoom = 1.8f;
-            Camera2d.Pos = new Vector2(200,200);
+            Camera2d.Zoom = 5f;
+            Camera2d.Pos = new Vector2(50,50);
         }
 
         protected override void Initialize()
@@ -30,7 +30,7 @@ namespace Godspeed
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            editor = new Texture2DEditor(new Texture2D(GraphicsDevice, 500, 500));
+            editor = new Texture2DEditor(new Texture2D(GraphicsDevice, 100, 100));
 
             for (int i = 0; i < editor.texture.Height; i++)
             {
@@ -75,7 +75,7 @@ namespace Godspeed
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin(SpriteSortMode.BackToFront,
                  BlendState.AlphaBlend,
-                 null,
+                 SamplerState.PointClamp,
                  null,
                  null,
                  null,
@@ -83,7 +83,7 @@ namespace Godspeed
 
             spriteBatch.Draw(
                 editor.texture
-                , new Rectangle(0, 0, 500, 500)
+                , new Rectangle(0, 0,100, 100)
                 , Color.White);
 
             spriteBatch.End();

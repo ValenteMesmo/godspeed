@@ -19,7 +19,7 @@ namespace Godspeed.CommonProject
         public void SetColor(Point position, Color color)
         {
 
-          
+
 
             //var lineIndex = ((position.X + position.Y) / texture.Height).AsInt();
 
@@ -29,6 +29,9 @@ namespace Godspeed.CommonProject
             //    return;
             //[width * row + col]
             //UTILIZAR ALtura do..... retangulo! não da textura~
+            var actualPosition = position.Y * texture.Width + position.X;
+            if (actualPosition < 0 || actualPosition > pixels.Length - 1)
+                return;
             pixels.SetValue(color, position.Y * texture.Width + position.X);
         }
 
