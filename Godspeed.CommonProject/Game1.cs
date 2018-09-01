@@ -15,15 +15,16 @@ namespace Godspeed
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
             Camera2d = new Camera2d();
-            Camera2d.Zoom = 5f;
-            Camera2d.Pos = new Vector2(50,50);
+            Camera2d.SetZoom (5f);
+            Camera2d.SetPosition( new Vector2(50,50));
         }
 
         protected override void Initialize()
         {
-            IsMouseVisible = true;
+            IsMouseVisible = true;            
             base.Initialize();
         }
 
@@ -47,24 +48,26 @@ namespace Godspeed
         protected override void UnloadContent()
         {
         }
-
+        private int previousScrollValue;
         protected override void Update(GameTime gameTime)
         {
-            Camera2d.Update();
-
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
                 || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
             var mousestate = Mouse.GetState();
 
-            if (mousestate.LeftButton == ButtonState.Pressed)
-            {
-                var actualPosition = Camera2d.ToWorldLocation(mousestate.Position);
-                editor.SetColor(actualPosition, Color.Green);
-            }
+            if (mousestate.ScrollWheelValue < previousScrollValue)
+                Camera2d.ZoomIn();
+            else if (mousestate.ScrollWheelValue > previousScrollValue)
+                Camera2d.ZoomOut();
+            previousScrollValue= mousestate.ScrollWheelValue;
 
+            if (mousestate.LeftButton == ButtonState.Pressed)
+                {
+                    var actualPosition = Camera2d.ToWorldLocation(mousestate.Position);
+                    editor.SetColor(actualPosition, Color.Green);
+                }
 
             editor.UpdateTextureData();
             base.Update(gameTime);
