@@ -7,24 +7,25 @@ namespace Godspeed
 {
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        private readonly Camera2d Camera2d;
+        private readonly GraphicsDeviceManager graphics;
+        private readonly Camera2d camera;
+        private SpriteBatch spriteBatch;
         private Texture2DEditor editor;
+        private int previousScrollValue;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
-            Camera2d = new Camera2d();
-            Camera2d.SetZoom (5f);
-            Camera2d.SetPosition( new Vector2(50,50));
+            camera = new Camera2d();
+            camera.SetZoom(5f);
+            camera.SetPosition(new Vector2(50, 50));
         }
 
         protected override void Initialize()
         {
-            IsMouseVisible = true;            
+            IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -48,7 +49,7 @@ namespace Godspeed
         protected override void UnloadContent()
         {
         }
-        private int previousScrollValue;
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
@@ -57,17 +58,22 @@ namespace Godspeed
 
             var mousestate = Mouse.GetState();
 
+            if (mousestate.ScrollWheelValue != previousScrollValue)
+                camera.SetPosition(
+                    camera.GetPosition()
+                    .Lerp(mousestate.Position.ToWorldPosition(camera), 0.1f));
+
             if (mousestate.ScrollWheelValue < previousScrollValue)
-                Camera2d.ZoomIn();
+                camera.ZoomIn();
             else if (mousestate.ScrollWheelValue > previousScrollValue)
-                Camera2d.ZoomOut();
-            previousScrollValue= mousestate.ScrollWheelValue;
+                camera.ZoomOut();
+            previousScrollValue = mousestate.ScrollWheelValue;
 
             if (mousestate.LeftButton == ButtonState.Pressed)
-                {
-                    var actualPosition = Camera2d.ToWorldLocation(mousestate.Position);
-                    editor.SetColor(actualPosition, Color.Green);
-                }
+            {
+                var actualPosition = camera.ToWorldLocation(mousestate.Position);
+                editor.SetColor(actualPosition, Color.Green);
+            }
 
             editor.UpdateTextureData();
             base.Update(gameTime);
@@ -82,11 +88,11 @@ namespace Godspeed
                  null,
                  null,
                  null,
-                 Camera2d.GetTransformation(GraphicsDevice));
+                 camera.GetTransformation(GraphicsDevice));
 
             spriteBatch.Draw(
                 editor.texture
-                , new Rectangle(0, 0,100, 100)
+                , new Rectangle(0, 0, 100, 100)
                 , Color.White);
 
             spriteBatch.End();

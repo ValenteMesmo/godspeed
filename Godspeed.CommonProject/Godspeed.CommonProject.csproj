@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\Vector2Extensions.cs" />
     <Compile Include="Services\Camera2d.cs" />
     <Compile Include="Extensions\FloatExtensions.cs" />
     <Compile Include="Services\Texture2DEditor.cs" />
