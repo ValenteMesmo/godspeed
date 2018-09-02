@@ -5,6 +5,11 @@ namespace Godspeed
 {
     public static class Vector2Extensions
     {
+        public static Point Add(this Point vector, int x, int y)
+        {
+            return new Point(vector.X + x, vector.Y + y);
+        }
+
         public static Vector2 Lerp(this Vector2 firstVector, Vector2 secondVector, float by)
         {
             return Vector2.Lerp(firstVector, secondVector, by);

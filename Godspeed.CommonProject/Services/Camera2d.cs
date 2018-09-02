@@ -31,6 +31,11 @@ namespace Godspeed.CommonProject
             originalPosition = position = value;
         }
 
+        public void SetPosition(Point value)
+        {
+            SetPosition(value.ToVector2());
+        }
+
         public float GetZoom()
         {
             return zoom;
@@ -46,12 +51,12 @@ namespace Godspeed.CommonProject
         }
 
         public void ZoomIn() {
-            zoom += 0.1f;
+            zoom += 0.31f;
         }
 
         public void ZoomOut()
         {
-            zoom -= 0.1f;
+            zoom -= 0.31f;
         }
 
         public Matrix GetTransformation(GraphicsDevice graphicsDevice)
@@ -81,10 +86,7 @@ namespace Godspeed.CommonProject
 
         public Point ToWorldLocation(Point position)
         {
-            return Vector2.Transform(
-                position.ToVector2()
-                , Matrix.Invert(transform)
-            ).ToPoint();
+            return ToWorldLocation(position.ToVector2()).ToPoint();
         }
 
         public Vector2 ToScreenLocation(Vector2 position)

@@ -13,6 +13,8 @@ namespace Godspeed
         private Texture2DEditor editor;
         private int previousScrollValue;
 
+        public const int TEXTURE_SIZE = 100;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -20,7 +22,7 @@ namespace Godspeed
             Content.RootDirectory = "Content";
             camera = new Camera2d();
             camera.SetZoom(5f);
-            camera.SetPosition(new Vector2(50, 50));
+            camera.SetPosition(new Vector2(TEXTURE_SIZE/2, TEXTURE_SIZE/2));
         }
 
         protected override void Initialize()
@@ -32,7 +34,7 @@ namespace Godspeed
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            editor = new Texture2DEditor(new Texture2D(GraphicsDevice, 100, 100));
+            editor = new Texture2DEditor(new Texture2D(GraphicsDevice, TEXTURE_SIZE, TEXTURE_SIZE));
 
             for (int i = 0; i < editor.texture.Height; i++)
             {
@@ -60,8 +62,10 @@ namespace Godspeed
 
             if (mousestate.ScrollWheelValue != previousScrollValue)
                 camera.SetPosition(
-                    camera.GetPosition()
-                    .Lerp(mousestate.Position.ToWorldPosition(camera), 0.1f));
+                    camera.GetPosition().Lerp(
+                        mousestate.Position.Add(TEXTURE_SIZE/2, TEXTURE_SIZE/2).ToWorldPosition(camera)
+                        , 0.1f))
+                ;
 
             if (mousestate.ScrollWheelValue < previousScrollValue)
                 camera.ZoomIn();
@@ -92,7 +96,7 @@ namespace Godspeed
 
             spriteBatch.Draw(
                 editor.texture
-                , new Rectangle(0, 0, 100, 100)
+                , new Rectangle(0, 0, TEXTURE_SIZE, TEXTURE_SIZE)
                 , Color.White);
 
             spriteBatch.End();
