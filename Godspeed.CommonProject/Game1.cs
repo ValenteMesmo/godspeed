@@ -22,7 +22,7 @@ namespace Godspeed
             Content.RootDirectory = "Content";
             camera = new Camera2d();
             camera.SetZoom(5f);
-            camera.SetPosition(new Vector2(TEXTURE_SIZE/2, TEXTURE_SIZE/2));
+            camera.SetPosition(new Vector2(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2));
         }
 
         protected override void Initialize()
@@ -60,15 +60,12 @@ namespace Godspeed
 
             var mousestate = Mouse.GetState();
 
-            if (mousestate.ScrollWheelValue != previousScrollValue)
-                camera.SetPosition(
-                    camera.GetPosition().Lerp(
-                        mousestate.Position.Add(TEXTURE_SIZE/2, TEXTURE_SIZE/2).ToWorldPosition(camera)
-                        , 0.1f))
-                ;
 
             if (mousestate.ScrollWheelValue < previousScrollValue)
+            {
                 camera.ZoomIn();
+                mousestate = SetCameraPositionLimitedByTextureArea(mousestate);
+            }
             else if (mousestate.ScrollWheelValue > previousScrollValue)
                 camera.ZoomOut();
             previousScrollValue = mousestate.ScrollWheelValue;
@@ -81,6 +78,29 @@ namespace Godspeed
 
             editor.UpdateTextureData();
             base.Update(gameTime);
+        }
+
+        private MouseState SetCameraPositionLimitedByTextureArea(MouseState mousestate)
+        {
+            var position = camera.GetPosition().Lerp(
+                                    mousestate.Position.Add(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2).ToWorldPosition(camera)
+                                    , 0.1f);
+
+            var bounds = editor.texture.Bounds;
+            if (position.X > bounds.Right)
+                position.X = bounds.Right;
+
+            if (position.X < bounds.Left)
+                position.X = bounds.Left;
+
+            if (position.Y < bounds.Top)
+                position.Y = bounds.Top;
+
+            if (position.Y > bounds.Bottom)
+                position.Y = bounds.Bottom;
+
+            camera.SetPosition(position);
+            return mousestate;
         }
 
         protected override void Draw(GameTime gameTime)
