@@ -7,6 +7,7 @@ namespace Godspeed.CommonProject
     {
         private const float VIRTUAL_WIDTH = 1366;
         private const float VIRTUAL_HEIGHT = 768;
+        private const float ZOOM_SPEED = 0.31f;
 
         private Matrix transform;
         private Vector2 position;
@@ -51,12 +52,14 @@ namespace Godspeed.CommonProject
         }
 
         public void ZoomIn() {
-            zoom += 0.31f;
+            zoom += ZOOM_SPEED;
         }
 
         public void ZoomOut()
         {
-            zoom -= 0.31f;
+            zoom -= ZOOM_SPEED;
+            if (zoom < ZOOM_SPEED)
+                zoom = ZOOM_SPEED;
         }
 
         public Matrix GetTransformation(GraphicsDevice graphicsDevice)
