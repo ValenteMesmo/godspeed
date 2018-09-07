@@ -49,6 +49,8 @@ namespace Godspeed.CommonProject
         public void SetZoom(float value)
         {
             zoom = value;
+            if (zoom < ZOOM_SPEED)
+                zoom = ZOOM_SPEED;
         }
 
         public void ZoomIn() {
@@ -60,6 +62,14 @@ namespace Godspeed.CommonProject
             zoom -= ZOOM_SPEED;
             if (zoom < ZOOM_SPEED)
                 zoom = ZOOM_SPEED;
+        }
+
+        public void ScrollUp() {
+            SetPosition(new Vector2(position.X,position.Y - 1));
+        }
+
+        public void ScrollDown() {
+            SetPosition(new Vector2(position.X, position.Y + 1));
         }
 
         public Matrix GetTransformation(GraphicsDevice graphicsDevice)

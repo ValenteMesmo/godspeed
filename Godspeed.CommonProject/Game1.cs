@@ -45,7 +45,6 @@ namespace Godspeed
             }
 
             editor.UpdateTextureData();
-
         }
 
         protected override void UnloadContent()
@@ -54,20 +53,36 @@ namespace Godspeed
 
         protected override void Update(GameTime gameTime)
         {
+            var keyboard = Keyboard.GetState();
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
-                || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                || keyboard.IsKeyDown(Keys.Escape))
                 Exit();
 
             var mousestate = Mouse.GetState();
 
-
-            if (mousestate.ScrollWheelValue < previousScrollValue)
+            if (keyboard.IsKeyDown(Keys.LeftControl) || keyboard.IsKeyDown(Keys.RightControl))
             {
-                camera.ZoomIn();
-                mousestate = SetCameraPositionLimitedByTextureArea(mousestate);
+                if (mousestate.ScrollWheelValue < previousScrollValue)
+                {
+                    camera.ZoomIn();
+                    SetCameraPositionLimitedByTextureArea(mousestate.Position);
+                }
+                else if (mousestate.ScrollWheelValue > previousScrollValue)
+                    camera.ZoomOut();
             }
-            else if (mousestate.ScrollWheelValue > previousScrollValue)
-                camera.ZoomOut();
+            else
+            {
+                if (mousestate.ScrollWheelValue < previousScrollValue)
+                {
+                    camera.ScrollDown();
+                }
+                else if (mousestate.ScrollWheelValue > previousScrollValue)
+                {
+                    camera.ScrollUp();
+                }
+            }
+
             previousScrollValue = mousestate.ScrollWheelValue;
 
             if (mousestate.LeftButton == ButtonState.Pressed)
@@ -80,10 +95,10 @@ namespace Godspeed
             base.Update(gameTime);
         }
 
-        private MouseState SetCameraPositionLimitedByTextureArea(MouseState mousestate)
+        private void SetCameraPositionLimitedByTextureArea(Point targetPosition)
         {
             var position = camera.GetPosition().Lerp(
-                                    mousestate.Position.Add(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2).ToWorldPosition(camera)
+                                    targetPosition.Add(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2).ToWorldPosition(camera)
                                     , 0.1f);
 
             var bounds = editor.texture.Bounds;
@@ -100,7 +115,6 @@ namespace Godspeed
                 position.Y = bounds.Bottom;
 
             camera.SetPosition(position);
-            return mousestate;
         }
 
         protected override void Draw(GameTime gameTime)
