@@ -45,10 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\Vector2Extensions.cs" />
-    <Compile Include="Services\Camera2d.cs" />
-    <Compile Include="Extensions\FloatExtensions.cs" />
-    <Compile Include="Services\Texture2DEditor.cs" />
+    <Compile Include="Core\UpdateHandlers\LimitPositionByBoundsExtension.cs" />
+    <Compile Include="Utils\Extensions\Vector2Extensions.cs" />
+    <Compile Include="Core\GameObject.cs" />
+    <Compile Include="Utils\Maybe.cs" />
+    <Compile Include="Core\Camera2d.cs" />
+    <Compile Include="Utils\Extensions\FloatExtensions.cs" />
+    <Compile Include="Core\Texture2DEditor.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

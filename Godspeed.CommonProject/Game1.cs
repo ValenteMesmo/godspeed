@@ -8,7 +8,7 @@ namespace Godspeed
     public class Game1 : Game
     {
         private readonly GraphicsDeviceManager graphics;
-        private readonly Camera2d camera;
+        private Camera2d camera;
         private SpriteBatch spriteBatch;
         private Texture2DEditor editor;
         private int previousScrollValue;
@@ -20,9 +20,6 @@ namespace Godspeed
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
-            camera = new Camera2d();
-            camera.SetZoom(5f);
-            camera.SetPosition(new Vector2(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2));
         }
 
         protected override void Initialize()
@@ -37,14 +34,15 @@ namespace Godspeed
             editor = new Texture2DEditor(new Texture2D(GraphicsDevice, TEXTURE_SIZE, TEXTURE_SIZE));
 
             for (int i = 0; i < editor.texture.Height; i++)
-            {
                 for (int j = 0; j < editor.texture.Width; j++)
-                {
                     editor.SetColor(new Point(j, i), Color.Beige);
-                }
-            }
 
             editor.UpdateTextureData();
+
+            camera = new Camera2d();
+            camera.SetZoom(5f);
+            camera.SetPosition(new Vector2(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2));
+            camera.LimitPositionByBounds(editor.texture.Bounds);
         }
 
         protected override void UnloadContent()
@@ -92,6 +90,8 @@ namespace Godspeed
             }
 
             editor.UpdateTextureData();
+            camera.Update();
+
             base.Update(gameTime);
         }
 
@@ -101,18 +101,6 @@ namespace Godspeed
                                     targetPosition.Add(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2).ToWorldPosition(camera)
                                     , 0.1f);
 
-            var bounds = editor.texture.Bounds;
-            if (position.X > bounds.Right)
-                position.X = bounds.Right;
-
-            if (position.X < bounds.Left)
-                position.X = bounds.Left;
-
-            if (position.Y < bounds.Top)
-                position.Y = bounds.Top;
-
-            if (position.Y > bounds.Bottom)
-                position.Y = bounds.Bottom;
 
             camera.SetPosition(position);
         }

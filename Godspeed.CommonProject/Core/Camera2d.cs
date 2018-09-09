@@ -3,14 +3,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Godspeed.CommonProject
 {
-    public class Camera2d
+    public class Camera2d : GameObject
     {
         private const float VIRTUAL_WIDTH = 1366;
         private const float VIRTUAL_HEIGHT = 768;
         private const float ZOOM_SPEED = 0.31f;
 
         private Matrix transform;
-        private Vector2 position;
         private Vector2 originalPosition;
         private float rotation;
         private float zoom;
@@ -22,12 +21,7 @@ namespace Godspeed.CommonProject
             position = Vector2.Zero;
         }
 
-        public Vector2 GetPosition()
-        {
-            return position;
-        }
-
-        public void SetPosition(Vector2 value)
+        public override void SetPosition(Vector2 value)
         {
             originalPosition = position = value;
         }
