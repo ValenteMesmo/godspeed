@@ -5,20 +5,50 @@ namespace Godspeed.CommonProject
 {
     public class Camera2d : GameObject
     {
-        private const float VIRTUAL_WIDTH = 1366;
-        private const float VIRTUAL_HEIGHT = 768;
-        private const float ZOOM_SPEED = 0.31f;
+        private readonly float VIRTUAL_WIDTH = 1366;
+        private readonly float VIRTUAL_HEIGHT = 768;
 
+        private const float ZOOM_SPEED = 0.31f;
+        private const float SCROLL_VELOCIY = 0.5f;
+        private const float SCROLL_BREAK_VELOCITY = 0.05f;
+
+        private float scrollSpeed = 0.0f;
         private Matrix transform;
         private Vector2 originalPosition;
         private float rotation;
         private float zoom;
 
-        public Camera2d()
+        public Camera2d(bool android = false)
         {
+            if (android)
+            {
+                var height = VIRTUAL_HEIGHT;
+                VIRTUAL_HEIGHT = VIRTUAL_WIDTH;
+                VIRTUAL_WIDTH = height;
+            }
+
             zoom = 1.0f;
             rotation = 0.0f;
             position = Vector2.Zero;
+
+            AddUpdateHandler(SetPositionBasedOnVelocity);
+        }
+
+        private void SetPositionBasedOnVelocity(GameObject obj)
+        {
+            SetPosition(new Vector2(position.X, position.Y + scrollSpeed));
+            if (scrollSpeed > 0)
+            {
+                scrollSpeed -= SCROLL_BREAK_VELOCITY;
+                if (scrollSpeed < 0)
+                    scrollSpeed = 0;
+            }
+            else if (scrollSpeed < 0)
+            {
+                scrollSpeed += SCROLL_BREAK_VELOCITY;
+                if (scrollSpeed > 0)
+                    scrollSpeed = 0;
+            }
         }
 
         public override void SetPosition(Vector2 value)
@@ -47,7 +77,9 @@ namespace Godspeed.CommonProject
                 zoom = ZOOM_SPEED;
         }
 
-        public void ZoomIn() {
+        public void ZoomIn()
+        {
+            //scrollSpeed +=
             zoom += ZOOM_SPEED;
         }
 
@@ -58,12 +90,16 @@ namespace Godspeed.CommonProject
                 zoom = ZOOM_SPEED;
         }
 
-        public void ScrollUp() {
-            SetPosition(new Vector2(position.X,position.Y - 1));
+        public void ScrollUp()
+        {
+            scrollSpeed -= SCROLL_VELOCIY;
+            //SetPosition(new Vector2(position.X,position.Y - 1));
         }
 
-        public void ScrollDown() {
-            SetPosition(new Vector2(position.X, position.Y + 1));
+        public void ScrollDown()
+        {
+            scrollSpeed += SCROLL_VELOCIY;
+            //SetPosition(new Vector2(position.X, position.Y + 1));
         }
 
         public Matrix GetTransformation(GraphicsDevice graphicsDevice)

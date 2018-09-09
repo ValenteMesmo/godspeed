@@ -12,11 +12,12 @@ namespace Godspeed
         private SpriteBatch spriteBatch;
         private Texture2DEditor editor;
         private int previousScrollValue;
-
+        private readonly bool RunningOnAndroid;
         public const int TEXTURE_SIZE = 100;
 
-        public Game1()
+        public Game1(bool android = false)
         {
+            RunningOnAndroid = android;
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
@@ -39,7 +40,7 @@ namespace Godspeed
 
             editor.UpdateTextureData();
 
-            camera = new Camera2d();
+            camera = new Camera2d(RunningOnAndroid);
             camera.SetZoom(5f);
             camera.SetPosition(new Vector2(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2));
             camera.LimitPositionByBounds(editor.texture.Bounds);
