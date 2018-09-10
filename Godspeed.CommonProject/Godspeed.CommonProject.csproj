@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Inputs\GestureHelper.cs" />
     <Compile Include="Core\UpdateHandlers\LimitPositionByBoundsExtension.cs" />
     <Compile Include="Utils\Extensions\Vector2Extensions.cs" />
     <Compile Include="Core\GameObject.cs" />

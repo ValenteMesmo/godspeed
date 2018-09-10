@@ -49,3 +49,10 @@
 /processorParam:TextureFormat=Color
 /build:btn.bmp
 
+#begin font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:font.spritefont
+

@@ -22,9 +22,8 @@ namespace Godspeed.CommonProject
         {
             if (android)
             {
-                var height = VIRTUAL_HEIGHT;
-                VIRTUAL_HEIGHT = VIRTUAL_WIDTH;
-                VIRTUAL_WIDTH = height;
+                VIRTUAL_WIDTH = 720;
+                VIRTUAL_HEIGHT = 1280;
             }
 
             zoom = 1.0f;

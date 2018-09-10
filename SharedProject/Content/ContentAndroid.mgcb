@@ -49,3 +49,10 @@
 /processorParam:TextureFormat=Color
 /build:skull.bmp
 
+#begin font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:font.spritefont
+

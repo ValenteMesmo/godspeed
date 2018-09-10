@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Godspeed
 {
@@ -11,6 +12,7 @@ namespace Godspeed
         private Camera2d camera;
         private SpriteBatch spriteBatch;
         private Texture2DEditor editor;
+        private SpriteFont font;
         private int previousScrollValue;
         private readonly bool RunningOnAndroid;
         public const int TEXTURE_SIZE = 100;
@@ -27,13 +29,22 @@ namespace Godspeed
         {
             IsMouseVisible = true;
             base.Initialize();
+
+            if(RunningOnAndroid)
+            TouchPanel.EnabledGestures =
+               GestureType.Hold |
+               GestureType.Tap |
+               GestureType.DoubleTap |
+               GestureType.FreeDrag |
+               GestureType.Flick |
+               GestureType.Pinch;
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             editor = new Texture2DEditor(new Texture2D(GraphicsDevice, TEXTURE_SIZE, TEXTURE_SIZE));
-
+            font = Content.Load<SpriteFont>("font");
             for (int i = 0; i < editor.texture.Height; i++)
                 for (int j = 0; j < editor.texture.Width; j++)
                     editor.SetColor(new Point(j, i), Color.Beige);
@@ -89,12 +100,17 @@ namespace Godspeed
                 var actualPosition = camera.ToWorldLocation(mousestate.Position);
                 editor.SetColor(actualPosition, Color.Green);
             }
-
+            GestureHelper.HandleTouchInput(value => {
+                pinch += value;
+                camera.SetZoom(pinch);
+            });
             editor.UpdateTextureData();
             camera.Update();
 
             base.Update(gameTime);
         }
+
+        private float pinch = 0;
 
         private void SetCameraPositionLimitedByTextureArea(Point targetPosition)
         {
@@ -123,6 +139,10 @@ namespace Godspeed
                 , Color.White);
 
             spriteBatch.End();
+            spriteBatch.Begin();
+            spriteBatch.DrawString(font, pinch.ToString(),new Vector2(100,100), Color.Black);
+            spriteBatch.End();
+
             base.Draw(gameTime);
         }
     }
