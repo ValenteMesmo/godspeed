@@ -30,14 +30,14 @@ namespace Godspeed
             IsMouseVisible = true;
             base.Initialize();
 
-            if(RunningOnAndroid)
-            TouchPanel.EnabledGestures =
-               GestureType.Hold |
-               GestureType.Tap |
-               GestureType.DoubleTap |
-               GestureType.FreeDrag |
-               GestureType.Flick |
-               GestureType.Pinch;
+            if (RunningOnAndroid)
+                TouchPanel.EnabledGestures =
+                   GestureType.Hold |
+                   GestureType.Tap |
+                   GestureType.DoubleTap |
+                   GestureType.FreeDrag |
+                   GestureType.Flick |
+                   GestureType.Pinch;
         }
 
         protected override void LoadContent()
@@ -100,10 +100,19 @@ namespace Godspeed
                 var actualPosition = camera.ToWorldLocation(mousestate.Position);
                 editor.SetColor(actualPosition, Color.Green);
             }
-            GestureHelper.HandleTouchInput(value => {
-                pinch += value;
-                camera.SetZoom(pinch);
-            });
+            var touch = TouchPanel.GetState();
+            if (touch.Count == 1)
+            {
+                var actualPosition = camera.ToWorldLocation(touch[0].Position);
+                editor.SetColor(actualPosition.ToPoint(), Color.Green);
+            }
+            else
+                GestureHelper.HandleTouchInput(value =>
+                {
+                    pinch += value;
+                    camera.SetZoom(pinch);
+                });
+
             editor.UpdateTextureData();
             camera.Update();
 
@@ -140,7 +149,7 @@ namespace Godspeed
 
             spriteBatch.End();
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, pinch.ToString(),new Vector2(100,100), Color.Black);
+            spriteBatch.DrawString(font, pinch.ToString(), new Vector2(100, 100), Color.Black);
             spriteBatch.End();
 
             base.Draw(gameTime);
