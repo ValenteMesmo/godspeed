@@ -16,6 +16,7 @@ namespace Godspeed
         private int previousScrollValue;
         private readonly bool RunningOnAndroid;
         public const int TEXTURE_SIZE = 100;
+        Point? previousPoint;
 
         public Game1(bool android = false)
         {
@@ -99,6 +100,28 @@ namespace Godspeed
             {
                 var actualPosition = camera.ToWorldLocation(mousestate.Position);
                 editor.SetColor(actualPosition, Color.Green);
+
+                if (previousPoint .HasValue) {
+                    var currentPoint = previousPoint.Value;
+                    while (currentPoint != actualPosition)
+                    {
+                        if (currentPoint.X < actualPosition.X)
+                            currentPoint.X++;
+                        else if (currentPoint.X > actualPosition.X)
+                            currentPoint.X--;
+
+                        if (currentPoint.Y < actualPosition.Y)
+                            currentPoint.Y++;
+                        else if (currentPoint.Y > actualPosition.Y)
+                            currentPoint.Y--;
+
+                        editor.SetColor(currentPoint, Color.Green);
+                    }
+                }
+
+                    previousPoint = actualPosition;
+
+
             }
             var touch = TouchPanel.GetState();
             if (touch.Count == 1)

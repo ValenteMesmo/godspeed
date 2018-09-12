@@ -10,6 +10,16 @@ namespace Godspeed
             return new Point(vector.X + x, vector.Y + y);
         }
 
+        public static Point AddX(this Point vector, int x)
+        {
+            return new Point(vector.X + x, vector.Y );
+        }
+
+        public static Point AddY(this Point vector, int y)
+        {
+            return new Point(vector.X, vector.Y + y);
+        }
+
         public static Vector2 Lerp(this Vector2 firstVector, Vector2 secondVector, float by)
         {
             return Vector2.Lerp(firstVector, secondVector, by);
