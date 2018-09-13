@@ -18,6 +18,7 @@ namespace Godspeed
         private readonly bool RunningOnAndroid;
         public const int TEXTURE_SIZE = 100;
         Point? previousPoint;
+        Point? previousTouchPoint;
 
         public Game1(bool android = false)
         {
@@ -117,15 +118,27 @@ namespace Godspeed
             var touch = TouchPanel.GetState();
             if (touch.Count == 1)
             {
-                var actualPosition = camera.ToWorldLocation(touch[0].Position);
-                editor.SetColor(actualPosition.ToPoint(), Color.Green);
+                var actualPosition = camera.ToWorldLocation(touch[0].Position).ToPoint();
+                editor.SetColor(actualPosition, Color.Green);
+
+                if (previousTouchPoint.HasValue)
+                {
+                    previousTouchPoint.Value.ForEachPointUntil(actualPosition
+                        , (a, b) => editor.SetColor(new Point(a, b), Color.Green)
+                    );
+                }
+
+                previousTouchPoint = actualPosition;
             }
             else
+            {
+                previousTouchPoint = null;
                 GestureHelper.HandleTouchInput(value =>
                 {
                     pinch += value;
                     camera.SetZoom(pinch);
                 });
+            }
 
             editor.UpdateTextureData();
             camera.Update();
