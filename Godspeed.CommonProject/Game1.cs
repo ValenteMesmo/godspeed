@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using System;
 
 namespace Godspeed
 {
@@ -101,27 +102,14 @@ namespace Godspeed
                 var actualPosition = camera.ToWorldLocation(mousestate.Position);
                 editor.SetColor(actualPosition, Color.Green);
 
-                if (previousPoint .HasValue) {
-                    var currentPoint = previousPoint.Value;
-                    while (currentPoint != actualPosition)
-                    {
-                        if (currentPoint.X < actualPosition.X)
-                            currentPoint.X++;
-                        else if (currentPoint.X > actualPosition.X)
-                            currentPoint.X--;
-
-                        if (currentPoint.Y < actualPosition.Y)
-                            currentPoint.Y++;
-                        else if (currentPoint.Y > actualPosition.Y)
-                            currentPoint.Y--;
-
-                        editor.SetColor(currentPoint, Color.Green);
-                    }
+                if (previousPoint.HasValue)
+                {
+                    previousPoint.Value.ForEachPointUntil(actualPosition
+                        , (a, b) => editor.SetColor(new Point(a, b), Color.Green)
+                    );
                 }
 
-                    previousPoint = actualPosition;
-
-
+                previousPoint = actualPosition;
             }
             var touch = TouchPanel.GetState();
             if (touch.Count == 1)
@@ -140,6 +128,42 @@ namespace Godspeed
             camera.Update();
 
             base.Update(gameTime);
+        }
+
+        public void line(Point a, Point b, Action<int, int> putpixel)
+        {
+            int w = b.X - a.X;
+            int h = b.Y - a.Y;
+            int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
+            if (w < 0) dx1 = -1; else if (w > 0) dx1 = 1;
+            if (h < 0) dy1 = -1; else if (h > 0) dy1 = 1;
+            if (w < 0) dx2 = -1; else if (w > 0) dx2 = 1;
+            int longest = Math.Abs(w);
+            int shortest = Math.Abs(h);
+            if (!(longest > shortest))
+            {
+                longest = Math.Abs(h);
+                shortest = Math.Abs(w);
+                if (h < 0) dy2 = -1; else if (h > 0) dy2 = 1;
+                dx2 = 0;
+            }
+            int numerator = longest >> 1;
+            for (int i = 0; i <= longest; i++)
+            {
+                putpixel(a.X, a.Y);
+                numerator += shortest;
+                if (!(numerator < longest))
+                {
+                    numerator -= longest;
+                    a.X += dx1;
+                    a.Y += dy1;
+                }
+                else
+                {
+                    a.X += dx2;
+                    a.Y += dy2;
+                }
+            }
         }
 
         private float pinch = 0;
