@@ -111,6 +111,9 @@ namespace Godspeed
 
                 previousPoint = actualPosition;
             }
+            else
+                previousPoint = null;
+
             var touch = TouchPanel.GetState();
             if (touch.Count == 1)
             {
