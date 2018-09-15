@@ -6,7 +6,7 @@ namespace Godspeed
 {
     class GestureHelper
     {
-        public static void HandleTouchInput(Action<float> asdasd)
+        public static void HandleTouchInput(Action<float, Point> asdasd)
         {
             while (TouchPanel.IsGestureAvailable)
             {
@@ -38,7 +38,8 @@ namespace Godspeed
                             float dOld = Vector2.Distance(aOld, bOld);
 
                             float scaleChange = (d - dOld) * .01f;
-                            asdasd(scaleChange);
+                            //var point = new Point((int)((a.X + b.X)*0.5f), (int)((a.Y + b.Y) * 0.5f));
+                            asdasd(scaleChange, gesture.Position.ToPoint());
                         }
                         break;
                 }

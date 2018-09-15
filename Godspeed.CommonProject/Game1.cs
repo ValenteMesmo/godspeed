@@ -133,10 +133,12 @@ namespace Godspeed
             else
             {
                 previousTouchPoint = null;
-                GestureHelper.HandleTouchInput(value =>
+                GestureHelper.HandleTouchInput((value,point) =>
                 {
                     pinch += value;
                     camera.SetZoom(pinch);
+                    //verificar posicao atuao do pinch e mover de acordo com o delta (world delta)
+                    camera.SetPosition(point.ToWorldPosition(camera));
                 });
             }
 
