@@ -11,5 +11,11 @@
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)Content\ContentDesktop.mgcb" />
     <None Include="$(MSBuildThisFileDirectory)Content\ContentAndroid.mgcb" />
+    <None Include="$(MSBuildThisFileDirectory)Content\font.spritefont" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Content\btn.bmp" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\eyes.bmp" />
+    <Content Include="$(MSBuildThisFileDirectory)Content\skull.bmp" />
   </ItemGroup>
 </Project>

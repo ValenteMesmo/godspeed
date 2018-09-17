@@ -7,18 +7,36 @@ using System;
 
 namespace Godspeed
 {
+    public class Cooldown
+    {
+        private readonly int cooldownDurationInUpdatesCount;
+        private int cooldown;
+
+        public Cooldown(int cooldownDurationInUpdatesCount)
+            => this.cooldownDurationInUpdatesCount = cooldownDurationInUpdatesCount;
+
+        public void Update() { if (cooldown > 0) cooldown--; }
+
+        public bool IsOnCooldown() => cooldown > 0;
+        public bool NotOnCooldown() => cooldown == 0;
+        public void SetOnCooldown() => cooldown = cooldownDurationInUpdatesCount;
+    }
+
     public class Game1 : Game
     {
         private readonly GraphicsDeviceManager graphics;
         private Camera2d camera;
         private SpriteBatch spriteBatch;
         private Texture2DEditor editor;
+        private Texture2D btnTexture;
+        private Rectangle btnArea = new Rectangle(100, 100, 100, 100);
         private SpriteFont font;
         private int previousScrollValue;
         private readonly bool RunningOnAndroid;
         public const int TEXTURE_SIZE = 100;
         Point? previousPoint;
         Point? previousTouchPoint;
+        Cooldown toogleToolButtonCooldown = new Cooldown(60);
 
         public Game1(bool android = false)
         {
@@ -48,12 +66,9 @@ namespace Godspeed
             spriteBatch = new SpriteBatch(GraphicsDevice);
             editor = new Texture2DEditor(new Texture2D(GraphicsDevice, TEXTURE_SIZE, TEXTURE_SIZE));
             font = Content.Load<SpriteFont>("font");
-            for (int i = 0; i < editor.texture.Height; i++)
-                for (int j = 0; j < editor.texture.Width; j++)
-                    editor.SetColor(new Point(j, i), Color.Beige);
 
             editor.UpdateTextureData();
-
+            btnTexture = Content.Load<Texture2D>("btn");
             camera = new Camera2d(RunningOnAndroid);
             camera.SetZoom(5f);
             camera.SetPosition(new Vector2(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2));
@@ -66,6 +81,8 @@ namespace Godspeed
 
         protected override void Update(GameTime gameTime)
         {
+            toogleToolButtonCooldown.Update();
+
             var keyboard = Keyboard.GetState();
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
@@ -100,17 +117,25 @@ namespace Godspeed
 
             if (mousestate.LeftButton == ButtonState.Pressed)
             {
-                var actualPosition = camera.ToWorldLocation(mousestate.Position);
-                editor.SetColor(actualPosition, Color.Green);
-
-                if (previousPoint.HasValue)
+                if (btnArea.Contains(mousestate.Position) && toogleToolButtonCooldown.NotOnCooldown())
                 {
-                    previousPoint.Value.ForEachPointUntil(actualPosition
-                        , (a, b) => editor.SetColor(new Point(a, b), Color.Green)
-                    );
+                    editor.erasing = !editor.erasing;
+                    toogleToolButtonCooldown.SetOnCooldown();
                 }
+                else
+                {
+                    var actualPosition = camera.ToWorldLocation(mousestate.Position);
+                    editor.SetColor(actualPosition);
 
-                previousPoint = actualPosition;
+                    if (previousPoint.HasValue)
+                    {
+                        previousPoint.Value.ForEachPointUntil(actualPosition
+                            , (a, b) => editor.SetColor(new Point(a, b))
+                        );
+                    }
+
+                    previousPoint = actualPosition;
+                }
             }
             else
                 previousPoint = null;
@@ -119,12 +144,12 @@ namespace Godspeed
             if (touch.Count == 1)
             {
                 var actualPosition = camera.ToWorldLocation(touch[0].Position).ToPoint();
-                editor.SetColor(actualPosition, Color.Green);
+                editor.SetColor(actualPosition);
 
                 if (previousTouchPoint.HasValue)
                 {
                     previousTouchPoint.Value.ForEachPointUntil(actualPosition
-                        , (a, b) => editor.SetColor(new Point(a, b), Color.Green)
+                        , (a, b) => editor.SetColor(new Point(a, b))
                     );
                 }
 
@@ -133,7 +158,7 @@ namespace Godspeed
             else
             {
                 previousTouchPoint = null;
-                GestureHelper.HandleTouchInput((value,point) =>
+                GestureHelper.HandleTouchInput((value, point) =>
                 {
                     pinch += value;
                     camera.SetZoom(pinch);
@@ -215,6 +240,7 @@ namespace Godspeed
             spriteBatch.End();
             spriteBatch.Begin();
             spriteBatch.DrawString(font, pinch.ToString(), new Vector2(100, 100), Color.Black);
+            spriteBatch.Draw(btnTexture, btnArea, editor.erasing ? Color.White : Color.Red);
             spriteBatch.End();
 
             base.Draw(gameTime);
