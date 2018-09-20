@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using System;
+using System.Collections.Generic;
 
 namespace Godspeed
 {
@@ -20,6 +21,28 @@ namespace Godspeed
         public bool IsOnCooldown() => cooldown > 0;
         public bool NotOnCooldown() => cooldown == 0;
         public void SetOnCooldown() => cooldown = cooldownDurationInUpdatesCount;
+    }
+
+    public class PencilAreaCalculator
+    {
+        public static List<Point> Calculate(int radiusSquared, Point point)
+        {
+            List<Point> indices = new List<Point>();
+
+            for (int i = point.X - radiusSquared; i < point.X + radiusSquared; i++)
+            {
+                for (int j = point.Y - radiusSquared; j < point.Y + radiusSquared ; j++)
+                {
+                    int deltaX = i - point.X;
+                    int deltaY = j - point.Y;
+                    double distanceSquared = Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2);
+                    if (distanceSquared <= radiusSquared)
+                        indices.Add(new Point(i, j));
+                }
+            }
+
+            return indices;
+        }
     }
 
     public class Game1 : Game
@@ -130,8 +153,14 @@ namespace Godspeed
                     if (previousPoint.HasValue)
                     {
                         previousPoint.Value.ForEachPointUntil(actualPosition
-                            , (a, b) => editor.SetColor(new Point(a, b))
-                        );
+                          , (a, b) =>
+                          {
+                              var points = PencilAreaCalculator.Calculate(20, new Point(a, b));
+                              foreach (var point in points)
+                              {
+                                  editor.SetColor(point);
+                              }
+                          });
                     }
 
                     previousPoint = actualPosition;
