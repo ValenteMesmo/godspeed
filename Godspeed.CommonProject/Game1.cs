@@ -58,8 +58,8 @@ namespace Godspeed
         private readonly bool RunningOnAndroid;
         public const int TEXTURE_SIZE = 100;
         Point? previousPoint;
-        Point? previousTouchPoint;
         Cooldown toogleToolButtonCooldown = new Cooldown(60);
+        private float pinch = 0;
 
         public Game1(bool android = false)
         {
@@ -145,7 +145,6 @@ namespace Godspeed
                 HandleDrawingAction(touch[0].Position.ToPoint());
             else
             {
-                previousTouchPoint = null;
                 GestureHelper.HandleTouchInput((value, point) =>
                 {
                     pinch += value;
@@ -190,43 +189,6 @@ namespace Godspeed
             }
         }
 
-        public void line(Point a, Point b, Action<int, int> putpixel)
-        {
-            int w = b.X - a.X;
-            int h = b.Y - a.Y;
-            int dx1 = 0, dy1 = 0, dx2 = 0, dy2 = 0;
-            if (w < 0) dx1 = -1; else if (w > 0) dx1 = 1;
-            if (h < 0) dy1 = -1; else if (h > 0) dy1 = 1;
-            if (w < 0) dx2 = -1; else if (w > 0) dx2 = 1;
-            int longest = Math.Abs(w);
-            int shortest = Math.Abs(h);
-            if (!(longest > shortest))
-            {
-                longest = Math.Abs(h);
-                shortest = Math.Abs(w);
-                if (h < 0) dy2 = -1; else if (h > 0) dy2 = 1;
-                dx2 = 0;
-            }
-            int numerator = longest >> 1;
-            for (int i = 0; i <= longest; i++)
-            {
-                putpixel(a.X, a.Y);
-                numerator += shortest;
-                if (!(numerator < longest))
-                {
-                    numerator -= longest;
-                    a.X += dx1;
-                    a.Y += dy1;
-                }
-                else
-                {
-                    a.X += dx2;
-                    a.Y += dy2;
-                }
-            }
-        }
-
-        private float pinch = 0;
 
         private void SetCameraPositionLimitedByTextureArea(Point targetPosition)
         {
