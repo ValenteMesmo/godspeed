@@ -31,7 +31,7 @@ namespace Godspeed
 
             for (int i = point.X - radiusSquared; i < point.X + radiusSquared; i++)
             {
-                for (int j = point.Y - radiusSquared; j < point.Y + radiusSquared ; j++)
+                for (int j = point.Y - radiusSquared; j < point.Y + radiusSquared; j++)
                 {
                     int deltaX = i - point.X;
                     int deltaY = j - point.Y;
@@ -138,52 +138,11 @@ namespace Godspeed
 
             previousScrollValue = mousestate.ScrollWheelValue;
 
-            if (mousestate.LeftButton == ButtonState.Pressed)
-            {
-                if (btnArea.Contains(mousestate.Position) && toogleToolButtonCooldown.NotOnCooldown())
-                {
-                    editor.erasing = !editor.erasing;
-                    toogleToolButtonCooldown.SetOnCooldown();
-                }
-                else
-                {
-                    var actualPosition = camera.ToWorldLocation(mousestate.Position);
-                    editor.SetColor(actualPosition);
-
-                    if (previousPoint.HasValue)
-                    {
-                        previousPoint.Value.ForEachPointUntil(actualPosition
-                          , (a, b) =>
-                          {
-                              var points = PencilAreaCalculator.Calculate(20, new Point(a, b));
-                              foreach (var point in points)
-                              {
-                                  editor.SetColor(point);
-                              }
-                          });
-                    }
-
-                    previousPoint = actualPosition;
-                }
-            }
-            else
-                previousPoint = null;
-
             var touch = TouchPanel.GetState();
-            if (touch.Count == 1)
-            {
-                var actualPosition = camera.ToWorldLocation(touch[0].Position).ToPoint();
-                editor.SetColor(actualPosition);
-
-                if (previousTouchPoint.HasValue)
-                {
-                    previousTouchPoint.Value.ForEachPointUntil(actualPosition
-                        , (a, b) => editor.SetColor(new Point(a, b))
-                    );
-                }
-
-                previousTouchPoint = actualPosition;
-            }
+            if (mousestate.LeftButton == ButtonState.Pressed)
+                HandleDrawingAction(mousestate.Position);
+            else if (touch.Count == 1)
+                HandleDrawingAction(touch[0].Position.ToPoint());
             else
             {
                 previousTouchPoint = null;
@@ -200,6 +159,35 @@ namespace Godspeed
             camera.Update();
 
             base.Update(gameTime);
+        }
+
+        private void HandleDrawingAction(Point pressedPosition)
+        {
+            if (btnArea.Contains(pressedPosition) && toogleToolButtonCooldown.NotOnCooldown())
+            {
+                editor.erasing = !editor.erasing;
+                toogleToolButtonCooldown.SetOnCooldown();
+            }
+            else
+            {
+                var actualPosition = camera.ToWorldLocation(pressedPosition);
+                editor.SetColor(actualPosition);
+
+                if (previousPoint.HasValue)
+                {
+                    previousPoint.Value.ForEachPointUntil(actualPosition
+                      , (a, b) =>
+                      {
+                          var points = PencilAreaCalculator.Calculate(20, new Point(a, b));
+                          foreach (var point in points)
+                          {
+                              editor.SetColor(point);
+                          }
+                      });
+                }
+
+                previousPoint = actualPosition;
+            }
         }
 
         public void line(Point a, Point b, Action<int, int> putpixel)
