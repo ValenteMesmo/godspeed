@@ -39,7 +39,8 @@ namespace Godspeed
 
                             float scaleChange = (d - dOld) * .01f;
                             //var point = new Point((int)((a.X + b.X)*0.5f), (int)((a.Y + b.Y) * 0.5f));
-                            asdasd(scaleChange, gesture.Position.ToPoint());
+                            
+                            asdasd(scaleChange, new Vector2((a.X + b.X) * .5f, (a.Y + b.Y) * .5f).ToPoint());
                         }
                         break;
                 }

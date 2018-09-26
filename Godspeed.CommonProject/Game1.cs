@@ -60,6 +60,8 @@ namespace Godspeed
         Point? previousPoint;
         Cooldown toogleToolButtonCooldown = new Cooldown(60);
         private float pinch = 0;
+        Vector2 CameraOriginalPosition = new Vector2(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2);
+        private Point pinchCenter;
 
         public Game1(bool android = false)
         {
@@ -82,7 +84,7 @@ namespace Godspeed
                    GestureType.FreeDrag |
                    GestureType.Flick |
                    GestureType.Pinch;
-        }
+        }        
 
         protected override void LoadContent()
         {
@@ -94,7 +96,7 @@ namespace Godspeed
             btnTexture = Content.Load<Texture2D>("btn");
             camera = new Camera2d(RunningOnAndroid);
             camera.SetZoom(5f);
-            camera.SetPosition(new Vector2(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2));
+            camera.SetPosition(CameraOriginalPosition);
             camera.LimitPositionByBounds(editor.texture.Bounds);
         }
 
@@ -149,8 +151,10 @@ namespace Godspeed
                 {
                     pinch += value;
                     camera.SetZoom(pinch);
-                    //verificar posicao atuao do pinch e mover de acordo com o delta (world delta)
-                    camera.SetPosition(point.ToWorldPosition(camera));
+                    pinchCenter = point;
+                    camera.LerpPosition(
+                        new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2) - point.ToVector2()
+                    );
                 });
             }
 
@@ -220,6 +224,7 @@ namespace Godspeed
             spriteBatch.Begin();
             spriteBatch.DrawString(font, pinch.ToString(), new Vector2(100, 100), Color.Black);
             spriteBatch.Draw(btnTexture, btnArea, editor.erasing ? Color.White : Color.Red);
+            spriteBatch.Draw(btnTexture, new Rectangle(pinchCenter.X, pinchCenter.Y, 100, 100), editor.erasing ? Color.White : Color.Red);
             spriteBatch.End();
 
             base.Draw(gameTime);

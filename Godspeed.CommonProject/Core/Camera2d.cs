@@ -55,6 +55,11 @@ namespace Godspeed.CommonProject
             originalPosition = position = value;
         }
 
+        public void LerpPosition(Vector2 value)
+        {
+            SetPosition(Vector2.Lerp(GetPosition(), value, 0.4f));
+        }
+
         public void SetPosition(Point value)
         {
             SetPosition(value.ToVector2());
@@ -107,13 +112,16 @@ namespace Godspeed.CommonProject
             var HeightDiff = graphicsDevice.Viewport.Height / VIRTUAL_HEIGHT;
 
             transform =
-              Matrix.CreateTranslation(
-                  new Vector3(-position.X, -position.Y, 0))
-                    * Matrix.CreateRotationZ(rotation)
-                    * Matrix.CreateScale(new Vector3(zoom * widthDiff, zoom * HeightDiff, 1))
-                    * Matrix.CreateTranslation(new Vector3(
-                        graphicsDevice.Viewport.Width * 0.5f,
-                        graphicsDevice.Viewport.Height * 0.5f, 0));
+                Matrix.CreateTranslation(new Vector3(-position.X, -position.Y, 0))
+                * Matrix.CreateRotationZ(rotation)
+                * Matrix.CreateScale(new Vector3(zoom * widthDiff, zoom * HeightDiff, 1))
+                * Matrix.CreateTranslation(
+                    new Vector3(
+                        graphicsDevice.Viewport.Width * 0.5f
+                        , graphicsDevice.Viewport.Height * 0.5f
+                        , 0
+                    )
+                );
 
             return transform;
         }
