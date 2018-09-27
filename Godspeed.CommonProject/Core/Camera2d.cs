@@ -55,9 +55,9 @@ namespace Godspeed.CommonProject
             originalPosition = position = value;
         }
 
-        public void LerpPosition(Vector2 value)
+        public void LerpPosition(Vector2 value, float amount)
         {
-            SetPosition(Vector2.Lerp(GetPosition(), value, 0.4f));
+            SetPosition(Vector2.Lerp(GetPosition(), value, amount));
         }
 
         public void SetPosition(Point value)

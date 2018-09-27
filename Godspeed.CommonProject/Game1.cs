@@ -154,6 +154,7 @@ namespace Godspeed
                     pinchCenter = point;
                     camera.LerpPosition(
                         new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2) - point.ToVector2()
+                        , 1f - value
                     );
                 });
             }
