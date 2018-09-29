@@ -61,7 +61,7 @@ namespace Godspeed
         Cooldown toogleToolButtonCooldown = new Cooldown(60);
         private float pinch = 0;
         Vector2 CameraOriginalPosition = new Vector2(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2);
-        private Point pinchCenter;
+        private Vector2 pinchCenter;
 
         public Game1(bool android = false)
         {
@@ -151,11 +151,14 @@ namespace Godspeed
                 {
                     pinch += value;
                     camera.SetZoom(pinch);
-                    pinchCenter = point;
+                    pinchCenter = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2) - point.ToVector2();
                     camera.LerpPosition(
-                        new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2) - point.ToVector2()
-                        , 1f - value
+                        pinchCenter
+                        , (1f - value) * 0.5f
                     );
+                }
+                , ()=> {
+
                 });
             }
 
@@ -225,7 +228,7 @@ namespace Godspeed
             spriteBatch.Begin();
             spriteBatch.DrawString(font, pinch.ToString(), new Vector2(100, 100), Color.Black);
             spriteBatch.Draw(btnTexture, btnArea, editor.erasing ? Color.White : Color.Red);
-            spriteBatch.Draw(btnTexture, new Rectangle(pinchCenter.X, pinchCenter.Y, 100, 100), editor.erasing ? Color.White : Color.Red);
+            spriteBatch.Draw(btnTexture, new Rectangle((int)pinchCenter.X, (int)pinchCenter.Y, 10, 10), Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);
