@@ -147,6 +147,7 @@ namespace Godspeed
                 HandleDrawingAction(touch[0].Position.ToPoint());
             else
             {
+                previousPoint = null;
                 GestureHelper.HandleTouchInput((value, point) =>
                 {
                     pinch += value;
