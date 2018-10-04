@@ -3,48 +3,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
-using System;
-using System.Collections.Generic;
 
 namespace Godspeed
 {
-    public class Cooldown
-    {
-        private readonly int cooldownDurationInUpdatesCount;
-        private int cooldown;
-
-        public Cooldown(int cooldownDurationInUpdatesCount)
-            => this.cooldownDurationInUpdatesCount = cooldownDurationInUpdatesCount;
-
-        public void Update() { if (cooldown > 0) cooldown--; }
-
-        public bool IsOnCooldown() => cooldown > 0;
-        public bool NotOnCooldown() => cooldown == 0;
-        public void SetOnCooldown() => cooldown = cooldownDurationInUpdatesCount;
-    }
-
-    public class PencilAreaCalculator
-    {
-        public static List<Point> Calculate(int radiusSquared, Point point)
-        {
-            List<Point> indices = new List<Point>();
-
-            for (int i = point.X - radiusSquared; i < point.X + radiusSquared; i++)
-            {
-                for (int j = point.Y - radiusSquared; j < point.Y + radiusSquared; j++)
-                {
-                    int deltaX = i - point.X;
-                    int deltaY = j - point.Y;
-                    double distanceSquared = Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2);
-                    if (distanceSquared <= radiusSquared)
-                        indices.Add(new Point(i, j));
-                }
-            }
-
-            return indices;
-        }
-    }
-
     public class Game1 : Game
     {
         private readonly GraphicsDeviceManager graphics;
@@ -59,9 +20,8 @@ namespace Godspeed
         public const int TEXTURE_SIZE = 100;
         Point? previousPoint;
         Cooldown toogleToolButtonCooldown = new Cooldown(60);
-        private float pinch = 0;
         Vector2 CameraOriginalPosition = new Vector2(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2);
-        private Vector2 pinchCenter;
+        TouchController TouchController;
 
         public Game1(bool android = false)
         {
@@ -84,7 +44,7 @@ namespace Godspeed
                    GestureType.FreeDrag |
                    GestureType.Flick |
                    GestureType.Pinch;
-        }        
+        }
 
         protected override void LoadContent()
         {
@@ -98,6 +58,7 @@ namespace Godspeed
             camera.SetZoom(5f);
             camera.SetPosition(CameraOriginalPosition);
             camera.LimitPositionByBounds(editor.texture.Bounds);
+            TouchController = new TouchController(camera,GraphicsDevice);
         }
 
         protected override void UnloadContent()
@@ -148,19 +109,7 @@ namespace Godspeed
             else
             {
                 previousPoint = null;
-                GestureHelper.HandleTouchInput((value, point) =>
-                {
-                    pinch += value;
-                    camera.SetZoom(pinch);
-                    pinchCenter = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2) - point.ToVector2();
-                    camera.LerpPosition(
-                        pinchCenter
-                        , (1f - value) * 0.5f
-                    );
-                }
-                , ()=> {
-
-                });
+                TouchController.Update();
             }
 
             editor.UpdateTextureData();
@@ -227,9 +176,8 @@ namespace Godspeed
 
             spriteBatch.End();
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, pinch.ToString(), new Vector2(100, 100), Color.Black);
+            //spriteBatch.DrawString(font, pinch.ToString(), new Vector2(100, 100), Color.Black);
             spriteBatch.Draw(btnTexture, btnArea, editor.erasing ? Color.White : Color.Red);
-            spriteBatch.Draw(btnTexture, new Rectangle((int)pinchCenter.X, (int)pinchCenter.Y, 10, 10), Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);
