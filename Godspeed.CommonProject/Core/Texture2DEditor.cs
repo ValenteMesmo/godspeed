@@ -3,12 +3,20 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Godspeed.CommonProject
 {
-    public class Texture2DEditor
+    public interface TextureEditor
+    {
+        void SetColor(Point position);
+        void UpdateTextureData();
+        bool erasing { get; set; }
+        Texture2D texture { get; }
+    }
+
+    public class Texture2DEditor : TextureEditor
     {
         private readonly Color[] pixels;
-        public readonly Texture2D texture;
+        public Texture2D texture { get; private set; }
         private readonly Color TransparencyColor = Color.Beige;
-        public bool erasing = false;
+        public bool erasing { get; set; } = false;
 
         public Texture2DEditor(Texture2D texture)
         {

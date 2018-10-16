@@ -67,12 +67,12 @@ namespace Godspeed
             return Vector2.Lerp(firstVector, secondVector.ToVector2(), by);
         }
 
-        public static Vector2 ToWorldPosition(this Vector2 position, Camera2d camera)
+        public static Vector2 ToWorldPosition(this Vector2 position, Camera camera)
         {
             return camera.ToWorldLocation(position);
         }
 
-        public static Point ToWorldPosition(this Point position, Camera2d camera)
+        public static Point ToWorldPosition(this Point position, Camera camera)
         {
             return camera.ToWorldLocation(position);
         }

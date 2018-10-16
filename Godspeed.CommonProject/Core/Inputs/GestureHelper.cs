@@ -5,18 +5,16 @@ using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Godspeed
 {
-    public class TouchController
+    public class PinchController
     {
-        private readonly Camera2d camera;
-        private readonly GraphicsDevice GraphicsDevice;
+        private readonly Camera camera;
         private Vector2? pinchStartPosition;
         private Vector2 pinchCurrentPosition;
         private float pinch = 0;
 
-        public TouchController(Camera2d camera, GraphicsDevice GraphicsDevice)
+        public PinchController(Camera camera)
         {
             this.camera = camera;
-            this.GraphicsDevice = GraphicsDevice;
         }
 
         public void Update()
@@ -49,11 +47,6 @@ namespace Godspeed
 
                     pinch += scaleChange;
                     camera.SetZoom(pinch);
-                    //var pinchCenter = new Vector2(GraphicsDevice.Viewport.Width / 2, GraphicsDevice.Viewport.Height / 2) - currentPosition;
-                    //camera.LerpPosition(
-                    //    pinchCenter
-                    //    , (1f - pinch) * 0.5f
-                    //);
 
                     continue;
                 }

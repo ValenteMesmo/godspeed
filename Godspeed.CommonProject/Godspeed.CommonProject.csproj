@@ -30,9 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework, Version=3.6.0.1625, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MonoGame.Framework.Portable.3.6.0.1625\lib\portable-net45+win8+wpa81\MonoGame.Framework.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MonoGame.Framework, Version=3.7.0.1708, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.Portable.3.7.0.1708\lib\portable-net45+win8+wpa81\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,9 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cooldown.cs" />
+    <Compile Include="Utils\Cooldown.cs" />
     <Compile Include="Core\Inputs\GestureHelper.cs" />
     <Compile Include="Core\UpdateHandlers\LimitPositionByBoundsExtension.cs" />
+    <Compile Include="Core\DrawingAndCamereMovementController.cs" />
+    <Compile Include="Core\Inputs\KeyboardInput.cs" />
+    <Compile Include="Utils\MemberValue.cs" />
+    <Compile Include="Core\Inputs\MouseInput.cs" />
     <Compile Include="PencilAreaCalculator.cs" />
     <Compile Include="Utils\Extensions\Vector2Extensions.cs" />
     <Compile Include="Core\GameObject.cs" />

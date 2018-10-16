@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godspeed.CommonProject", "G
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godspeed.UnitTestProject", "Godspeed.UnitTestProject\Godspeed.UnitTestProject.csproj", "{C9736853-AF3A-49AC-9BFF-99B9CD4399FC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godspeed.CommonProject.Tests", "Godspeed.CommonProject.Tests\Godspeed.CommonProject.Tests.csproj", "{59891309-C2E6-423F-93D0-0E9EA848CE84}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SharedProject\SharedProject.projitems*{d06fa236-b41b-4921-bb81-c8b5e2cc39ed}*SharedItemsImports = 13
@@ -40,6 +42,10 @@ Global
 		{C9736853-AF3A-49AC-9BFF-99B9CD4399FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9736853-AF3A-49AC-9BFF-99B9CD4399FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9736853-AF3A-49AC-9BFF-99B9CD4399FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59891309-C2E6-423F-93D0-0E9EA848CE84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59891309-C2E6-423F-93D0-0E9EA848CE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59891309-C2E6-423F-93D0-0E9EA848CE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59891309-C2E6-423F-93D0-0E9EA848CE84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
