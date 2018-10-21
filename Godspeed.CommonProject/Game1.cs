@@ -1,5 +1,4 @@
-﻿using Godspeed.CommonProject;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 
@@ -8,15 +7,11 @@ namespace Godspeed
     public class Game1 : Game
     {
         private readonly GraphicsDeviceManager graphics;
-        private Camera2d camera;
         private SpriteBatch spriteBatch;
-        private readonly MouseInput MouseInput;
-        private readonly KeyboardInput KeyboardInput;
-        private DrawingAndCamereMovementController DrawingAndCamereMovementController;
         private Texture2D btnTexture;
         private SpriteFont font;
+        private GameLoop GameLoop;
         private readonly bool RunningOnAndroid;
-        public const int TEXTURE_SIZE = 100;
 
         public Game1(bool android = false)
         {
@@ -24,15 +19,11 @@ namespace Godspeed
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
-
-            MouseInput = new MouseInput();
-            KeyboardInput = new KeyboardInput();
         }
 
         protected override void Initialize()
         {
             IsMouseVisible = true;
-            base.Initialize();
 
             if (RunningOnAndroid)
                 TouchPanel.EnabledGestures =
@@ -42,38 +33,18 @@ namespace Godspeed
                    GestureType.FreeDrag |
                    GestureType.Flick |
                    GestureType.Pinch;
+
+            base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-
             font = Content.Load<SpriteFont>("font");
-
-
             btnTexture = Content.Load<Texture2D>("btn");
-            camera = new Camera2d(RunningOnAndroid);
-            camera.SetZoom(5f);
-            camera.SetPosition(new Vector2(TEXTURE_SIZE / 2, TEXTURE_SIZE / 2));
 
-            var editor = new Texture2DEditor(
-                   new Texture2D(
-                       GraphicsDevice
-                       , TEXTURE_SIZE
-                       , TEXTURE_SIZE
-                   )
-               );
-            camera.LimitPositionByBounds(editor.texture.Bounds);
-    
-            DrawingAndCamereMovementController = new DrawingAndCamereMovementController(
-               camera
-               , new PinchController(camera)
-               , editor
-               , MouseInput
-               , KeyboardInput
-           );
-            DrawingAndCamereMovementController.editor.UpdateTextureData();
+            GameLoop = new GameLoop(RunningOnAndroid, GraphicsDevice);
         }
 
         protected override void UnloadContent()
@@ -82,12 +53,7 @@ namespace Godspeed
 
         protected override void Update(GameTime gameTime)
         {
-            MouseInput.Update();
-            KeyboardInput.Update();
-            DrawingAndCamereMovementController.Update();
-
-            camera.Update();
-
+            GameLoop.Update();
             base.Update(gameTime);
         }
 
@@ -100,17 +66,17 @@ namespace Godspeed
                  null,
                  null,
                  null,
-                 camera.GetTransformation(GraphicsDevice));
+                 GameLoop.GetTransformation(GraphicsDevice));
 
             spriteBatch.Draw(
-                DrawingAndCamereMovementController.editor.texture
-                , new Rectangle(0, 0, TEXTURE_SIZE, TEXTURE_SIZE)
+                GameLoop.texture
+                , new Rectangle(0, 0, GameLoop.TEXTURE_SIZE, GameLoop.TEXTURE_SIZE)
                 , Color.White);
 
             spriteBatch.End();
             spriteBatch.Begin();
             //spriteBatch.DrawString(font, pinch.ToString(), new Vector2(100, 100), Color.Black);
-            spriteBatch.Draw(btnTexture, DrawingAndCamereMovementController.btnArea, DrawingAndCamereMovementController.editor.erasing ? Color.White : Color.Red);
+            spriteBatch.Draw(btnTexture, GameLoop.btnArea, GameLoop.erasing ? Color.White : Color.Red);
             spriteBatch.End();
 
             base.Draw(gameTime);

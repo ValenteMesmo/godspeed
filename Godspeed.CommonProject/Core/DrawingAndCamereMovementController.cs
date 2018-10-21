@@ -88,7 +88,7 @@ namespace Godspeed
         {
             var position = camera.GetPosition()
                 .Lerp(
-                    targetPosition.Add(Game1.TEXTURE_SIZE / 2, Game1.TEXTURE_SIZE / 2)
+                    targetPosition.Add(GameLoop.TEXTURE_SIZE / 2, GameLoop.TEXTURE_SIZE / 2)
                         .ToWorldPosition(camera)
                     , 0.1f
                 );

@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameLoop.cs" />
     <Compile Include="Utils\Cooldown.cs" />
     <Compile Include="Core\Inputs\GestureHelper.cs" />
     <Compile Include="Core\UpdateHandlers\LimitPositionByBoundsExtension.cs" />
