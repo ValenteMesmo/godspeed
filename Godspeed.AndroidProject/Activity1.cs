@@ -21,9 +21,15 @@ namespace Godspeed.AndroidProject
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            game = new Game1(true);            
+            game = new Game1(true);
             SetViewFullScreen();
             game.Run();
+        }
+
+        protected override void OnStop()
+        {
+            game.Save();
+            base.OnStop();
         }
 
         private void SetViewFullScreen()

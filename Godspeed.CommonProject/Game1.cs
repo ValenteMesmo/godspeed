@@ -87,5 +87,9 @@ namespace Godspeed
 
             base.OnExiting(sender, args);
         }
+
+        public void Save() {
+            GameLoop.Save();
+        }
     }
 }
