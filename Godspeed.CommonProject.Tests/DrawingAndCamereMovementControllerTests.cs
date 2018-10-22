@@ -20,7 +20,7 @@ namespace Godspeed.CommonProject.Tests
             var sut = new DrawingAndCamereMovementController(
                 camera
                 , new PinchController(camera)
-                , new Texture2DEditor(new Texture2D(null, 10, 10))
+                , new Texture2DEditor(new Texture2D(null, 10, 10), new StateFile())
                 , mouseInput
                 , keyboarInput
             );
@@ -41,7 +41,7 @@ namespace Godspeed.CommonProject.Tests
             var sut = new DrawingAndCamereMovementController(
                 camera
                 , new PinchController(camera)
-                , new Texture2DEditor(new Texture2D(null, 10, 10))
+                , new Texture2DEditor(new Texture2D(null, 10, 10), new StateFile())
                 , mouseInput
                 , keyboarInput
             );
@@ -63,7 +63,7 @@ namespace Godspeed.CommonProject.Tests
             var sut = new DrawingAndCamereMovementController(
                 camera
                 , new PinchController(camera)
-                , new Texture2DEditor(new Texture2D(null, 10, 10))
+                , new Texture2DEditor(new Texture2D(null, 10, 10), new StateFile())
                 , mouseInput
                 , keyboarInput
             );
@@ -87,7 +87,7 @@ namespace Godspeed.CommonProject.Tests
             var sut = new DrawingAndCamereMovementController(
                 camera
                 , new PinchController(camera)
-                , new Texture2DEditor(new Texture2D(null, 10, 10))
+                , new Texture2DEditor(new Texture2D(null, 10, 10), new StateFile())
                 , mouseInput
                 , keyboarInput
             );

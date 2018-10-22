@@ -60,26 +60,32 @@ namespace Godspeed
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin(SpriteSortMode.BackToFront,
-                 BlendState.AlphaBlend,
-                 SamplerState.PointClamp,
-                 null,
-                 null,
-                 null,
-                 GameLoop.GetTransformation(GraphicsDevice));
 
+            spriteBatch.Begin(SpriteSortMode.BackToFront,
+                BlendState.AlphaBlend,
+                SamplerState.PointClamp,
+                null,
+                null,
+                null,
+                GameLoop.GetTransformation(GraphicsDevice));
             spriteBatch.Draw(
                 GameLoop.texture
                 , new Rectangle(0, 0, GameLoop.TEXTURE_SIZE, GameLoop.TEXTURE_SIZE)
                 , Color.White);
-
             spriteBatch.End();
+
             spriteBatch.Begin();
-            //spriteBatch.DrawString(font, pinch.ToString(), new Vector2(100, 100), Color.Black);
             spriteBatch.Draw(btnTexture, GameLoop.btnArea, GameLoop.erasing ? Color.White : Color.Red);
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        protected override void OnExiting(object sender, System.EventArgs args)
+        {
+            GameLoop.Save();
+
+            base.OnExiting(sender, args);
         }
     }
 }

@@ -127,5 +127,10 @@ namespace Godspeed
                 wasDrawing = true;
             }
         }
+
+        public void Save()
+        {
+            editor.Save();
+        }
     }
 }

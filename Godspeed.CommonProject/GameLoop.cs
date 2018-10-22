@@ -11,13 +11,14 @@ namespace Godspeed
         public bool erasing { get => DrawingAndCamereMovementController.editor.erasing; }
         public Rectangle btnArea { get => DrawingAndCamereMovementController.btnArea; }
 
-        private Camera2d camera;
+        private readonly Camera2d camera;
         private readonly MouseInput MouseInput;
         private readonly KeyboardInput KeyboardInput;
-        private DrawingAndCamereMovementController DrawingAndCamereMovementController;
+        private readonly DrawingAndCamereMovementController DrawingAndCamereMovementController;
 
         public GameLoop(bool RunningOnAndroid, GraphicsDevice GraphicsDevice)
         {
+            var StateFile = new StateFile(RunningOnAndroid);
             MouseInput = new MouseInput();
             KeyboardInput = new KeyboardInput();
 
@@ -30,7 +31,7 @@ namespace Godspeed
                        GraphicsDevice
                        , TEXTURE_SIZE
                        , TEXTURE_SIZE
-                   )
+                   ), StateFile
                );
             camera.LimitPositionByBounds(editor.texture.Bounds);
 
@@ -56,5 +57,11 @@ namespace Godspeed
         {
             return camera.GetTransformation(GraphicsDevice);
         }
+
+        public void Save()
+        {
+            DrawingAndCamereMovementController.Save();
+        }
+
     }
 }
