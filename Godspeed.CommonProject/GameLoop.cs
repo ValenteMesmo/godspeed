@@ -14,6 +14,7 @@ namespace Godspeed
         private readonly Camera2d camera;
         private readonly MouseInput MouseInput;
         private readonly KeyboardInput KeyboardInput;
+        private readonly TouchInput TouchInput;
         private readonly DrawingAndCamereMovementController DrawingAndCamereMovementController;
 
         public GameLoop(bool RunningOnAndroid, GraphicsDevice GraphicsDevice)
@@ -21,6 +22,7 @@ namespace Godspeed
             var StateFile = new StateFile(RunningOnAndroid);
             MouseInput = new MouseInput();
             KeyboardInput = new KeyboardInput();
+            TouchInput = new TouchInput();
 
             camera = new Camera2d(RunningOnAndroid);
             camera.SetZoom(5f);
@@ -41,6 +43,7 @@ namespace Godspeed
                , editor
                , MouseInput
                , KeyboardInput
+               , TouchInput
            );
             DrawingAndCamereMovementController.editor.UpdateTextureData();
         }
@@ -49,6 +52,7 @@ namespace Godspeed
         {
             MouseInput.Update();
             KeyboardInput.Update();
+            TouchInput.Update();
             DrawingAndCamereMovementController.Update();
             camera.Update();
         }

@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Inputs\TouchInput.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="StateFile.cs" />
     <Compile Include="Utils\Cooldown.cs" />

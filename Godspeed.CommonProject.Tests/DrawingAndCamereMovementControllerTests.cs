@@ -23,6 +23,7 @@ namespace Godspeed.CommonProject.Tests
                 , new Texture2DEditor(new Texture2D(null, 10, 10), new StateFile())
                 , mouseInput
                 , keyboarInput
+                , new TouchInput()
             );
 
             sut.Update();
@@ -44,6 +45,7 @@ namespace Godspeed.CommonProject.Tests
                 , new Texture2DEditor(new Texture2D(null, 10, 10), new StateFile())
                 , mouseInput
                 , keyboarInput
+                , new TouchInput()
             );
 
             sut.Update();
@@ -66,6 +68,7 @@ namespace Godspeed.CommonProject.Tests
                 , new Texture2DEditor(new Texture2D(null, 10, 10), new StateFile())
                 , mouseInput
                 , keyboarInput
+                , new TouchInput()
             );
 
             sut.Update();
@@ -90,6 +93,7 @@ namespace Godspeed.CommonProject.Tests
                 , new Texture2DEditor(new Texture2D(null, 10, 10), new StateFile())
                 , mouseInput
                 , keyboarInput
+                , new TouchInput()
             );
 
             sut.Update();
@@ -114,6 +118,7 @@ namespace Godspeed.CommonProject.Tests
                 , editor
                 , mouseInput
                 , keyboarInput
+                , new TouchInput()
             );
 
             sut.Update();

@@ -11,8 +11,9 @@ namespace Godspeed
         Cooldown toogleToolButtonCooldown = new Cooldown(60);
         private Camera camera;
         PinchController PinchController;
-        MouseInput MouseScroll;
+        MouseInput MouseInput;
         KeyboardInput KeyboardInput;
+        TouchInput TouchInput;
         bool wasDrawing;
 
         public DrawingAndCamereMovementController(
@@ -20,10 +21,12 @@ namespace Godspeed
             , PinchController PinchController
             , TextureEditor editor
             , MouseInput MouseInput
-            , KeyboardInput KeyboardInput)
+            , KeyboardInput KeyboardInput
+            , TouchInput TouchInput)
         {
-            this.MouseScroll = MouseInput;
+            this.MouseInput = MouseInput;
             this.KeyboardInput = KeyboardInput;
+            this.TouchInput = TouchInput;
             this.camera = camera;
             this.PinchController = PinchController;
             this.editor = editor;
@@ -31,19 +34,17 @@ namespace Godspeed
 
         public void Update()
         {
-            var touch = TouchPanel.GetState();
-
             toogleToolButtonCooldown.Update();
             HandleMouseScroll();
-            HandleDrawing(touch);
+            HandleDrawing();
         }
 
-        private void HandleDrawing(TouchCollection touch)
+        private void HandleDrawing()
         {
-            if (MouseScroll.LeftButtonPressed.GetValue())
-                DrawPoint(MouseScroll.Position.GetValue());
-            else if (touch.Count == 1)
-                DrawPoint(touch[0].Position.ToPoint());
+            if (MouseInput.LeftButtonPressed.GetValue())
+                DrawPoint(MouseInput.Position);
+            else if (TouchInput.touching.GetValue())
+                DrawPoint(TouchInput.Position);
             else
             {
                 wasDrawing = false;
@@ -63,11 +64,11 @@ namespace Godspeed
 
         private void UseMouseScrollToMoveCamera()
         {
-            if (MouseScroll.Scroll.GetValue() < MouseScroll.Scroll.GetPreviousValue())
+            if (MouseInput.Scroll.GetValue() < MouseInput.Scroll.GetPreviousValue())
             {
                 camera.ScrollDown();
             }
-            else if (MouseScroll.Scroll.GetValue() > MouseScroll.Scroll.GetPreviousValue())
+            else if (MouseInput.Scroll.GetValue() > MouseInput.Scroll.GetPreviousValue())
             {
                 camera.ScrollUp();
             }
@@ -75,12 +76,12 @@ namespace Godspeed
 
         private void UseMouseScrollToChangeZoom()
         {
-            if (MouseScroll.Scroll.GetValue() < MouseScroll.Scroll.GetPreviousValue())
+            if (MouseInput.Scroll.GetValue() < MouseInput.Scroll.GetPreviousValue())
             {
                 camera.ZoomIn();
-                SetCameraPositionLimitedByTextureArea(MouseScroll.Position.GetValue());
+                SetCameraPositionLimitedByTextureArea(MouseInput.Position.GetValue());
             }
-            else if (MouseScroll.Scroll.GetValue() > MouseScroll.Scroll.GetPreviousValue())
+            else if (MouseInput.Scroll.GetValue() > MouseInput.Scroll.GetPreviousValue())
                 camera.ZoomOut();
         }
 
@@ -96,21 +97,21 @@ namespace Godspeed
             camera.SetPosition(position);
         }
 
-        private void DrawPoint(Point pressedPosition)
+        private void DrawPoint(MemberValue<Point> pressedPosition)
         {
-            if (btnArea.Contains(pressedPosition) && toogleToolButtonCooldown.NotOnCooldown())
+            if (btnArea.Contains(pressedPosition.GetValue()) && toogleToolButtonCooldown.NotOnCooldown())
             {
                 editor.erasing = !editor.erasing;
                 toogleToolButtonCooldown.SetOnCooldown();
             }
             else
             {
-                var actualPosition = camera.ToWorldLocation(pressedPosition);
+                var actualPosition = camera.ToWorldLocation(pressedPosition.GetValue());
                 editor.SetColor(actualPosition);
 
                 if (wasDrawing)
                 {
-                    MouseScroll.Position.GetPreviousValue()
+                    pressedPosition.GetPreviousValue()
                         .ToWorldPosition(camera)
                         .ForEachPointUntil(
                             actualPosition

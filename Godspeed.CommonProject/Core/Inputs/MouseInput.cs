@@ -14,7 +14,7 @@ namespace Godspeed
             var mouseState = Mouse.GetState();
             Scroll.SetValue(mouseState.ScrollWheelValue);
             Position.SetValue(mouseState.Position);
-            LeftButtonPressed .SetValue(mouseState.LeftButton == ButtonState.Pressed);
+            LeftButtonPressed.SetValue(mouseState.LeftButton == ButtonState.Pressed);
         }
     }
 }
