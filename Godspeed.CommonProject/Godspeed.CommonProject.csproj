@@ -68,7 +68,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\ContentAndroid.mgcb" />
+    <None Include="Content\ContentDesktop.mgcb" />
+    <None Include="Content\font.spritefont" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\btn.bmp" />
+    <Content Include="Content\eyes.bmp" />
+    <Content Include="Content\skull.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,24 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.14
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Godspeed.SharedProject", "SharedProject\Godspeed.SharedProject.shproj", "{D06FA236-B41B-4921-BB81-C8B5E2CC39ED}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godspeed.AndroidProject", "Godspeed.AndroidProject\Godspeed.AndroidProject.csproj", "{FD08B6B3-B8A0-411F-AA87-D24CBC699807}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godspeed.DesktopProject", "Godspeed.DesktopProject\Godspeed.DesktopProject.csproj", "{26A05092-CA3F-4B49-B0CA-EEB98646ECB3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godspeed.CommonProject", "Godspeed.CommonProject\Godspeed.CommonProject.csproj", "{3DB21D18-A0F1-4188-8DA3-C56C8EFDAC35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godspeed.UnitTestProject", "Godspeed.UnitTestProject\Godspeed.UnitTestProject.csproj", "{C9736853-AF3A-49AC-9BFF-99B9CD4399FC}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godspeed.CommonProject.Tests", "Godspeed.CommonProject.Tests\Godspeed.CommonProject.Tests.csproj", "{59891309-C2E6-423F-93D0-0E9EA848CE84}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{97ED8877-A7D9-4AE3-B44B-A28DA0D180A3}"
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		SharedProject\SharedProject.projitems*{d06fa236-b41b-4921-bb81-c8b5e2cc39ed}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -38,10 +33,6 @@ Global
 		{3DB21D18-A0F1-4188-8DA3-C56C8EFDAC35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DB21D18-A0F1-4188-8DA3-C56C8EFDAC35}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DB21D18-A0F1-4188-8DA3-C56C8EFDAC35}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C9736853-AF3A-49AC-9BFF-99B9CD4399FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C9736853-AF3A-49AC-9BFF-99B9CD4399FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9736853-AF3A-49AC-9BFF-99B9CD4399FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C9736853-AF3A-49AC-9BFF-99B9CD4399FC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{59891309-C2E6-423F-93D0-0E9EA848CE84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{59891309-C2E6-423F-93D0-0E9EA848CE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59891309-C2E6-423F-93D0-0E9EA848CE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -49,6 +40,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FD08B6B3-B8A0-411F-AA87-D24CBC699807} = {97ED8877-A7D9-4AE3-B44B-A28DA0D180A3}
+		{26A05092-CA3F-4B49-B0CA-EEB98646ECB3} = {97ED8877-A7D9-4AE3-B44B-A28DA0D180A3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DD1B3F3B-B1A2-4C81-8290-8F33ED190892}

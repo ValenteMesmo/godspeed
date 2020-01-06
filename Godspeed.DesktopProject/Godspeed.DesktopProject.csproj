@@ -101,7 +101,7 @@
       <Link>MonoGame.Framework.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <MonoGameContentReference Include="..\SharedProject\Content\ContentDesktop.mgcb">
+    <MonoGameContentReference Include="..\Godspeed.CommonProject\Content\ContentDesktop.mgcb">
       <Link>Content\ContentDesktop.mgcb</Link>
     </MonoGameContentReference>
     <None Include="app.manifest" />
