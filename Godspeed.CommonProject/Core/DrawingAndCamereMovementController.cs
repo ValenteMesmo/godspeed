@@ -42,9 +42,29 @@ namespace Godspeed
         private void HandleDrawing()
         {
             if (MouseInput.LeftButtonPressed.GetValue())
-                DrawPoint(MouseInput.Position);
+            {
+                var mousePosition = camera.ToWorldLocation(MouseInput.Position.GetValue());
+                var drawArea = new Rectangle(0, 0, editor.texture.Width, editor.texture.Height);
+                if (drawArea.Contains(mousePosition))
+                    DrawPoint(MouseInput.Position);
+                else
+                {
+                    wasDrawing = false;
+                    PinchController.Update();
+                }
+            }
             else if (TouchInput.touching.GetValue())
-                DrawPoint(TouchInput.Position);
+            {
+                var touchPosition = camera.ToWorldLocation(TouchInput.Position.GetValue());
+                var drawArea = new Rectangle(0, 0, editor.texture.Width, editor.texture.Height);
+                if (drawArea.Contains(touchPosition))
+                    DrawPoint(TouchInput.Position);
+                else
+                {
+                    wasDrawing = false;
+                    PinchController.Update();
+                }
+            }
             else
             {
                 wasDrawing = false;
@@ -107,7 +127,8 @@ namespace Godspeed
             else
             {
                 var actualPosition = camera.ToWorldLocation(pressedPosition.GetValue());
-                editor.SetColor(actualPosition);
+
+                //editor.SetColor(actualPosition);
 
                 if (wasDrawing)
                 {
@@ -122,6 +143,7 @@ namespace Godspeed
                                 {
                                     editor.SetColor(point);
                                 }
+                                //editor.SetColor(new Point(a, b));
                             });
                 }
 
