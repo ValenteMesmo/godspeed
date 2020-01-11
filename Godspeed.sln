@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godspeed.CommonProject.Test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{97ED8877-A7D9-4AE3-B44B-A28DA0D180A3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{D5BEB925-E5D9-4E77-8564-B9DCA86E8B29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godspeed.Desktop", "Godspeed.Desktop\Godspeed.Desktop.csproj", "{5AF9DA9B-D802-4D46-9B58-A435E35CC897}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monogame.Common", "Monogame.Common\Monogame.Common.csproj", "{B6D13B90-5611-464F-8431-F22388077090}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +43,14 @@ Global
 		{59891309-C2E6-423F-93D0-0E9EA848CE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{59891309-C2E6-423F-93D0-0E9EA848CE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{59891309-C2E6-423F-93D0-0E9EA848CE84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AF9DA9B-D802-4D46-9B58-A435E35CC897}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AF9DA9B-D802-4D46-9B58-A435E35CC897}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AF9DA9B-D802-4D46-9B58-A435E35CC897}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AF9DA9B-D802-4D46-9B58-A435E35CC897}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6D13B90-5611-464F-8431-F22388077090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6D13B90-5611-464F-8431-F22388077090}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6D13B90-5611-464F-8431-F22388077090}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6D13B90-5611-464F-8431-F22388077090}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +58,9 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FD08B6B3-B8A0-411F-AA87-D24CBC699807} = {97ED8877-A7D9-4AE3-B44B-A28DA0D180A3}
 		{26A05092-CA3F-4B49-B0CA-EEB98646ECB3} = {97ED8877-A7D9-4AE3-B44B-A28DA0D180A3}
+		{3DB21D18-A0F1-4188-8DA3-C56C8EFDAC35} = {D5BEB925-E5D9-4E77-8564-B9DCA86E8B29}
+		{59891309-C2E6-423F-93D0-0E9EA848CE84} = {D5BEB925-E5D9-4E77-8564-B9DCA86E8B29}
+		{97ED8877-A7D9-4AE3-B44B-A28DA0D180A3} = {D5BEB925-E5D9-4E77-8564-B9DCA86E8B29}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DD1B3F3B-B1A2-4C81-8290-8F33ED190892}
