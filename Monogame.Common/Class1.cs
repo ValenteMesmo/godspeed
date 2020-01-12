@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace Monogame.Common
 {
@@ -58,12 +59,17 @@ namespace Monogame.Common
         private SpriteBatch spriteBatch;
         private SpriteFont font;
         private readonly ContentLoader contentLoader;
-
+        private readonly TouchController TouchInputs ;
+        private readonly Camera Camera;
         public BaseGame(
             ContentLoader contentLoader
+            , TouchController TouchInputs
+            , Camera Camera
             , bool runningOnAndroid = false)
         {
             this.contentLoader = contentLoader;
+            this.TouchInputs = TouchInputs;
+            this.Camera = Camera;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -112,7 +118,7 @@ namespace Monogame.Common
                     obj.Update();
             }
 
-            camera.Update();
+            Camera.Update();
 
 
 
@@ -130,7 +136,7 @@ namespace Monogame.Common
                 null,
                 null,
                 null,
-                World.camera.transform);
+                Camera.transform);
 
             for (var i = 0; i < objectArray.Length; i++)
                 foreach (var spriteData in objectArray[i].Sprites)
@@ -140,6 +146,39 @@ namespace Monogame.Common
             base.Draw(gameTime);
         }
     }
+    public abstract class TouchInputs
+    {
+        public abstract IEnumerable<Vector2> GetTouches();
+    }
+    public class TouchController : TouchInputs
+    {
+        private readonly Camera camera;
+        private List<Vector2> touches = new List<Vector2>();
+
+        public TouchController(Camera camera)
+        {
+            this.camera = camera;
+        }
+
+        public override IEnumerable<Vector2> GetTouches() => touches;
+
+        public void Update()
+        {
+            touches.Clear();
+
+            var touchCollection = TouchPanel.GetState();
+            foreach (var touch in touchCollection)
+            {
+                if (touch.State == TouchLocationState.Pressed)
+                    touches.Add(camera.GetWorldPosition(touch.Position));
+            }
+
+            var mouse = Mouse.GetState();
+            if (mouse.LeftButton == ButtonState.Pressed)
+                touches.Add(camera.GetWorldPosition(mouse.Position.ToVector2()));
+        }
+    }
+
     public class Camera
     {
         private const float defaultZoom = 0.5f;
