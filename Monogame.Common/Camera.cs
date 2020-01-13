@@ -7,18 +7,14 @@ namespace Monogame.Common
     public class Camera
     {
         private const float defaultZoom = 0.5f;
-        private readonly GraphicsDevice graphicsDevice;
+        
         private float zoom = defaultZoom;
         private float rotation = 0.0f;
 
         public Vector2 position = Vector2.Zero;
 
         public Matrix transform { get; private set; } = new Matrix();
-        public Camera(GraphicsDevice graphicsDevice)
-        {
-            this.graphicsDevice = graphicsDevice;
-        }
-
+        
         public Vector2 GetWorldPosition(Vector2 position2)
         {
             return Vector2.Transform(position2, Matrix.Invert(transform));
@@ -29,7 +25,7 @@ namespace Monogame.Common
             return Vector2.Transform(position2, transform);
         }
 
-        public void Update()
+        public void Update(GraphicsDevice graphicsDevice)
         {
             var widthDiff = graphicsDevice.Viewport.Width / 1176.0f;
             var HeightDiff = graphicsDevice.Viewport.Height / 664.0f;

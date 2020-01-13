@@ -6,18 +6,12 @@ using Microsoft.Xna.Framework.Input.Touch;
 namespace Monogame.Common
 {
     public class TouchController : TouchInputs
-    {
-        private readonly Camera camera;
+    {        
         private List<Vector2> touches = new List<Vector2>();
-
-        public TouchController(Camera camera)
-        {
-            this.camera = camera;
-        }
 
         public override IEnumerable<Vector2> GetTouches() => touches;
 
-        public void Update()
+        public void Update(Camera camera)
         {
             touches.Clear();
 

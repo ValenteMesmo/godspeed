@@ -43,7 +43,7 @@ namespace Monogame.Common
             //    }
             //    , contentLoader.LoadTextures(Content));
 
-            font = Content.Load<SpriteFont>("Font");
+            //font = Content.Load<SpriteFont>("Font");
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //World.AddObject(new BalloonFactory(World));
@@ -58,7 +58,7 @@ namespace Monogame.Common
         protected override void Update(GameTime gameTime)
         {
             //TODO:parei aqui... deixando de usar a class world para botar tudo nessa class
-            TouchInputs.Update();
+            TouchInputs.Update(Camera);
 
             objectArray = objectList.ToArray();
             for (var i = 0; i < objectArray.Length; i++)
@@ -72,7 +72,7 @@ namespace Monogame.Common
                     obj.Update();
             }
 
-            Camera.Update();
+            Camera.Update(GraphicsDevice);
 
 
 
