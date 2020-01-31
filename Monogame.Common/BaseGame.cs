@@ -8,13 +8,18 @@ namespace Monogame.Common
     {
         private readonly List<GameObject> objectList = new List<GameObject>();
         private GameObject[] objectArray = new GameObject[0];
-
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
-        private SpriteFont font;
+        
         private readonly ContentLoader contentLoader;
         private readonly TouchController TouchInputs;
         private readonly Camera Camera;
+
+        private GraphicsDeviceManager graphics;
+
+        public Dictionary<string, Texture2D> Texutes { get; private set; }
+
+        private SpriteBatch spriteBatch;
+        private SpriteFont font;
+
         public BaseGame(
             ContentLoader contentLoader
             , TouchController TouchInputs
@@ -36,28 +41,24 @@ namespace Monogame.Common
 
         protected override void LoadContent()
         {
-            //World = new World(
-            //    new Camera(GraphicsDevice)
-            //    {
-            //        position = new Vector2(1179.0f, 0.0f)
-            //    }
-            //    , contentLoader.LoadTextures(Content));
+            var camera = new Camera()
+            {
+                position = new Vector2(1179.0f, 0.0f)
+            };
+            Texutes = contentLoader.LoadTextures(Content);
 
-            //font = Content.Load<SpriteFont>("Font");
+            font = Content.Load<SpriteFont>("Font");
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //World.AddObject(new BalloonFactory(World));
-            //World.AddObject(new FrameCounter(new TextSprite
+            //objectList.Add(new FrameCounter(new TextSprite
             //{
             //    Font = font,
             //    Position = new Vector2(100, -500)
             //}));
         }
-
-
+        
         protected override void Update(GameTime gameTime)
         {
-            //TODO:parei aqui... deixando de usar a class world para botar tudo nessa class
             TouchInputs.Update(Camera);
 
             objectArray = objectList.ToArray();
@@ -73,8 +74,6 @@ namespace Monogame.Common
             }
 
             Camera.Update(GraphicsDevice);
-
-
 
             base.Update(gameTime);
         }
