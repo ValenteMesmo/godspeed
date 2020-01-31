@@ -30,9 +30,4 @@ namespace Godspeed
                 update(this);
         }
     }
-
-    public interface IAddUpdateHandlers
-    {
-        void AddUpdateHandler(Action<GameObject> updateHandler);
-    }
 }

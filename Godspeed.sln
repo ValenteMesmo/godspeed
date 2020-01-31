@@ -15,9 +15,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{D5BEB925-E5D9-4E77-8564-B9DCA86E8B29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Godspeed.Desktop", "Godspeed.Desktop\Godspeed.Desktop.csproj", "{5AF9DA9B-D802-4D46-9B58-A435E35CC897}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Godspeed.Desktop", "Godspeed.Desktop\Godspeed.Desktop.csproj", "{5AF9DA9B-D802-4D46-9B58-A435E35CC897}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monogame.Common", "Monogame.Common\Monogame.Common.csproj", "{B6D13B90-5611-464F-8431-F22388077090}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Monogame.Common", "Monogame.Common\Monogame.Common.csproj", "{B6D13B90-5611-464F-8431-F22388077090}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monogame.Desktop", "Monogame.Desktop\Monogame.Desktop.csproj", "{5519FB81-023A-4C8A-BA92-A39EE6E07BAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{B6D13B90-5611-464F-8431-F22388077090}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6D13B90-5611-464F-8431-F22388077090}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6D13B90-5611-464F-8431-F22388077090}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5519FB81-023A-4C8A-BA92-A39EE6E07BAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5519FB81-023A-4C8A-BA92-A39EE6E07BAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5519FB81-023A-4C8A-BA92-A39EE6E07BAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5519FB81-023A-4C8A-BA92-A39EE6E07BAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

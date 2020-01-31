@@ -47,7 +47,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Camera.cs" />
+    <Compile Include="Core\IAddUpdateHandlers.cs" />
     <Compile Include="Core\Inputs\TouchInput.cs" />
+    <Compile Include="Core\PointToArrayIndexExtensions.cs" />
+    <Compile Include="Core\TextureEditor.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="StateFile.cs" />
     <Compile Include="Utils\Cooldown.cs" />
