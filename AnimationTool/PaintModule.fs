@@ -60,7 +60,9 @@ let pointsBetween(a:Point, b:Point) =
 let paintOnMouseClick(camera:Camera, editor: DrawingCanvas) =     
     let mouse = Mouse.GetState()
     
-    if mouse.LeftButton = ButtonState.Pressed then
+    if mouse.LeftButton = ButtonState.Pressed 
+        || mouse.RightButton = ButtonState.Pressed then
+
         let mousePosition = camera.GetWorldPosition(mouse.Position)
 
         if previousWorldPosition = Point.Zero then
@@ -68,7 +70,11 @@ let paintOnMouseClick(camera:Camera, editor: DrawingCanvas) =
 
         for point in pointsBetween(previousWorldPosition, mousePosition) do
             if editor.Texture.Bounds.Contains(point) then
-                editor.SetColor(point, Color.Red)
+                if mouse.RightButton = ButtonState.Pressed then
+                    editor.Erase(point)
+                else 
+                    editor.SetColor(point, Color.Red)
+
         editor.UpdateTexture()
         previousWorldPosition <- mousePosition
     else

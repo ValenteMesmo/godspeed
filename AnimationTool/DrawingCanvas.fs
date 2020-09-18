@@ -42,6 +42,10 @@ type DrawingCanvas(GraphicsDevice: GraphicsDevice) =
         setColor(position, color)
         ()
 
+    member this.Erase(position: Point) =
+        setColor(position, TransparencyColor)
+        ()
+
     member this.UpdateTexture() =
         texture.SetData(pixels)
 
