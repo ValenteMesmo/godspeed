@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Content\btn.bmp" />
+    <Content Include="Content\eyes.bmp" />
+    <Content Include="Content\skull.bmp" />
+    <MonoGameContentReference Include="Content\ContentDesktop.mgcb" />
+    <None Include="Content\font.spritefont">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Compile Include="DrawingCanvas.fs" />
+    <Compile Include="Camera.fs" />
+    <Compile Include="PaintModule.fs" />
+    <Compile Include="MyGame.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
+  </ItemGroup>
+
+</Project>
