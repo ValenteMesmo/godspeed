@@ -20,8 +20,7 @@ type DrawingCanvas(GraphicsDevice: GraphicsDevice) =
         if actualPosition < 0 || actualPosition > pixels.Length - 1 then
             ()
         else
-            pixels.SetValue(color, position.Y * texture.Width + position.X)
-            texture.SetData(pixels)
+            pixels.SetValue(color, position.Y * texture.Width + position.X)            
             ()
 
     do
@@ -42,5 +41,8 @@ type DrawingCanvas(GraphicsDevice: GraphicsDevice) =
     member this.SetColor(position: Point, color: Color) =
         setColor(position, color)
         ()
+
+    member this.UpdateTexture() =
+        texture.SetData(pixels)
 
     member this.Texture = texture
