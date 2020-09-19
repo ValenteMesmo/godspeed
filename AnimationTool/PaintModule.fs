@@ -57,6 +57,15 @@ let pointsBetween(a:Point, b:Point) =
                 A.Y <- A.Y + dy2
     ]
 
+let poitsFromPencilArea(radiusSquared: int, point: Point) =
+    [for i in point.X - radiusSquared .. point.X + radiusSquared do
+        for j in point.Y - radiusSquared .. point.Y + radiusSquared do
+            let deltaX = i - point.X
+            let deltaY = j - point.Y
+            let distanceSquared = Math.Pow(float deltaX, 2.0) + Math.Pow(float deltaY, 2.0)
+            if distanceSquared <= float radiusSquared then
+                yield Point(i, j)]
+
 let paintOnMouseClick(camera:Camera, editor: DrawingCanvas) =     
     let mouse = Mouse.GetState()
     
@@ -69,11 +78,12 @@ let paintOnMouseClick(camera:Camera, editor: DrawingCanvas) =
             previousWorldPosition <- mousePosition
 
         for point in pointsBetween(previousWorldPosition, mousePosition) do
-            if editor.Texture.Bounds.Contains(point) then
-                if mouse.RightButton = ButtonState.Pressed then
-                    editor.Erase(point)
-                else 
-                    editor.SetColor(point, Color.Red)
+            for pencilPoint in poitsFromPencilArea(6, point) do
+                if editor.Texture.Bounds.Contains(pencilPoint) then
+                    if mouse.RightButton = ButtonState.Pressed then
+                        editor.Erase(pencilPoint)
+                    else 
+                        editor.SetColor(pencilPoint, Color.Red)
 
         editor.UpdateTexture()
         previousWorldPosition <- mousePosition
