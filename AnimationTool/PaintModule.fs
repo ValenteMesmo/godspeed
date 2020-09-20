@@ -58,13 +58,18 @@ let pointsBetween(a:Point, b:Point) =
     ]
 
 let poitsFromPencilArea(radiusSquared: int, point: Point) =
-    [for i in point.X - radiusSquared .. point.X + radiusSquared do
-        for j in point.Y - radiusSquared .. point.Y + radiusSquared do
-            let deltaX = i - point.X
-            let deltaY = j - point.Y
-            let distanceSquared = Math.Pow(float deltaX, 2.0) + Math.Pow(float deltaY, 2.0)
-            if distanceSquared <= float radiusSquared then
-                yield Point(i, j)]
+    [
+        for i in point.X - radiusSquared .. point.X + radiusSquared do
+            for j in point.Y - radiusSquared .. point.Y + radiusSquared do
+                let deltaX = i - point.X
+                let deltaY = j - point.Y
+                let distanceSquared = 
+                    Math.Pow(float deltaX, 2.0) 
+                    + Math.Pow(float deltaY, 2.0)
+
+                if distanceSquared <= float radiusSquared then
+                    yield Point(i, j)
+    ]
 
 let paintOnMouseClick(camera:Camera, editor: DrawingCanvas) =     
     let mouse = Mouse.GetState()
@@ -89,4 +94,31 @@ let paintOnMouseClick(camera:Camera, editor: DrawingCanvas) =
         previousWorldPosition <- mousePosition
     else
         previousWorldPosition <- Point.Zero
+    
+let convertColor(color:Color) =
+    System.Drawing.Color.FromArgb(
+        int color.A
+        , int color.R
+        , int color.G
+        , int color.B
+    )
+
+let FromArrayIndexToPoint(index: int, width: int) =
+    if index < width then
+        Point(index, 0)
+    else
+        Point((index / width), index % width)
+
+let saveFile(editor: DrawingCanvas) =
+    let pic = new System.Drawing.Bitmap(
+        editor.Texture.Width
+        , editor.Texture.Height
+        , System.Drawing.Imaging.PixelFormat.Format32bppArgb
+    )
+
+    for i in 0..editor.Pixels.Length-1 do
+        let position = FromArrayIndexToPoint(i, editor.Texture.Width)
+        pic.SetPixel(position.Y, position.X, convertColor editor.Pixels.[i])
+
+    pic.Save("savefile.bmp")
     ()

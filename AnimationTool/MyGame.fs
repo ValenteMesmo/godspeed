@@ -56,3 +56,7 @@ type MyGame () as this =
         spriteBatch.End()
         ()
 
+    override this.OnExiting(sender, args) =
+        saveFile(editor)
+        base.OnExiting(sender, args);
+

@@ -50,3 +50,4 @@ type DrawingCanvas(GraphicsDevice: GraphicsDevice) =
         texture.SetData(pixels)
 
     member this.Texture = texture
+    member this.Pixels = pixels
