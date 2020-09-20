@@ -104,10 +104,7 @@ let convertColor(color:Color) =
     )
 
 let FromArrayIndexToPoint(index: int, width: int) =
-    if index < width then
-        Point(index, 0)
-    else
-        Point((index / width), index % width)
+    Point((index / width), index % width)
 
 let saveFile(editor: DrawingCanvas) =
     let pic = new System.Drawing.Bitmap(

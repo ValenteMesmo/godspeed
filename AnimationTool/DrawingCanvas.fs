@@ -8,7 +8,7 @@ type DrawingCanvas(GraphicsDevice: GraphicsDevice) =
     //let mutable StateFile = Unchecked.defaultof<StateFile>
 
     let mutable texture = Unchecked.defaultof<Texture2D>
-    let mutable TransparencyColor = Color.Beige
+    let mutable TransparencyColor = Color.Blue
     let mutable erasing = false
 
     //let UpdateTextureData =
