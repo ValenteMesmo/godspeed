@@ -22,8 +22,9 @@ type MyGame () as this =
         spriteBatch <- new SpriteBatch(this.GraphicsDevice)
 
         editor <- DrawingCanvas(this.GraphicsDevice)
-        do  base.Initialize()
-            this.IsMouseVisible <- true;
+        loadFile(editor, this.GraphicsDevice)
+        this.IsMouseVisible <- true;
+        base.Initialize()
         ()
 
     override this.LoadContent() =

@@ -103,19 +103,33 @@ let convertColor(color:Color) =
         , int color.B
     )
 
+let convertColor2(sysColor:System.Drawing.Color) =
+    Color(sysColor.R, sysColor.G, sysColor.B, sysColor.A)
+
 let FromArrayIndexToPoint(index: int, width: int) =
     Point((index / width), index % width)
+
+let loadFile(editor: DrawingCanvas, device: Graphics.GraphicsDevice) =
+    if System.IO.File.Exists("savefile.bmp") then
+        let texture = Microsoft.Xna.Framework.Graphics.Texture2D.FromFile(device, "savefile.bmp")
+    
+        texture.GetData(editor.Pixels)
+        editor.UpdateTexture()
+
+        texture.Dispose()
+    ()
 
 let saveFile(editor: DrawingCanvas) =
     let pic = new System.Drawing.Bitmap(
         editor.Texture.Width
         , editor.Texture.Height
         , System.Drawing.Imaging.PixelFormat.Format32bppArgb
-    )
+    )    
 
     for i in 0..editor.Pixels.Length-1 do
         let position = FromArrayIndexToPoint(i, editor.Texture.Width)
         pic.SetPixel(position.Y, position.X, convertColor editor.Pixels.[i])
 
     pic.Save("savefile.bmp")
+    pic.Dispose()
     ()

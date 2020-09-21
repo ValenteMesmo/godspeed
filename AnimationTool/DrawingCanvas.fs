@@ -5,14 +5,10 @@ open Microsoft.Xna.Framework.Graphics
 
 type DrawingCanvas(GraphicsDevice: GraphicsDevice) =
     let mutable pixels = Unchecked.defaultof<Color[]>
-    //let mutable StateFile = Unchecked.defaultof<StateFile>
 
     let mutable texture = Unchecked.defaultof<Texture2D>
-    let mutable TransparencyColor = Color.Blue
+    let mutable TransparencyColor = Color.Beige
     let mutable erasing = false
-
-    //let UpdateTextureData =
-    //    texture.SetData(pixels);
 
     let setColor(position: Point, color: Color) =
         let actualPosition = position.Y * texture.Width + position.X
@@ -26,7 +22,6 @@ type DrawingCanvas(GraphicsDevice: GraphicsDevice) =
     do
         texture <- new Texture2D(GraphicsDevice, 100, 100)
         pixels <- [| for i in 1 .. texture.Width * texture.Height -> Color.White |]
-        //texture.GetData(pixels)
         erasing <- true
         for i in 0 .. texture.Height do
             for j in 0 .. texture.Width do
@@ -48,6 +43,6 @@ type DrawingCanvas(GraphicsDevice: GraphicsDevice) =
 
     member this.UpdateTexture() =
         texture.SetData(pixels)
-
+        
     member this.Texture = texture
     member this.Pixels = pixels
