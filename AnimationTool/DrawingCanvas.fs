@@ -1,14 +1,11 @@
 ﻿module DrawingCanvasModule
 
-open Microsoft.Xna.Framework
 open Microsoft.Xna.Framework.Graphics
+open Microsoft.Xna.Framework
 
 type DrawingCanvas(GraphicsDevice: GraphicsDevice) =
     let mutable pixels = Unchecked.defaultof<Color[]>
-
     let mutable texture = Unchecked.defaultof<Texture2D>
-    let mutable TransparencyColor = Color.Beige
-    let mutable erasing = false
 
     let setColor(position: Point, color: Color) =
         let actualPosition = position.Y * texture.Width + position.X
@@ -21,24 +18,12 @@ type DrawingCanvas(GraphicsDevice: GraphicsDevice) =
 
     do
         texture <- new Texture2D(GraphicsDevice, 100, 100)
-        pixels <- [| for i in 1 .. texture.Width * texture.Height -> Color.White |]
-        erasing <- true
-        for i in 0 .. texture.Height do
-            for j in 0 .. texture.Width do
-                setColor(
-                    new Point(j, i)
-                    , if erasing then TransparencyColor else Color.Red
-                )
-        erasing <- false
+        pixels <- [| for i in 1 .. texture.Width * texture.Height -> Color.Transparent |]
         texture.SetData(pixels)
         ()
 
     member this.SetColor(position: Point, color: Color) =
         setColor(position, color)
-        ()
-
-    member this.Erase(position: Point) =
-        setColor(position, TransparencyColor)
         ()
 
     member this.UpdateTexture() =

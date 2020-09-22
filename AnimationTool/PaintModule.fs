@@ -1,9 +1,10 @@
 ﻿module PaintModule
 
+open Microsoft.Xna.Framework.Graphics
 open Microsoft.Xna.Framework.Input
-open GameCamera
 open Microsoft.Xna.Framework
 open DrawingCanvasModule
+open GameCamera
 open System
 
 let mutable previousWorldPosition = Point.Zero 
@@ -86,7 +87,7 @@ let paintOnMouseClick(camera:Camera, editor: DrawingCanvas) =
             for pencilPoint in poitsFromPencilArea(6, point) do
                 if editor.Texture.Bounds.Contains(pencilPoint) then
                     if mouse.RightButton = ButtonState.Pressed then
-                        editor.Erase(pencilPoint)
+                        editor.SetColor(pencilPoint, Color.Transparent)
                     else 
                         editor.SetColor(pencilPoint, Color.Red)
 
@@ -103,15 +104,14 @@ let convertColor(color:Color) =
         , int color.B
     )
 
-let convertColor2(sysColor:System.Drawing.Color) =
-    Color(sysColor.R, sysColor.G, sysColor.B, sysColor.A)
+let fileName = "savefile.png"
 
 let FromArrayIndexToPoint(index: int, width: int) =
     Point((index / width), index % width)
 
 let loadFile(editor: DrawingCanvas, device: Graphics.GraphicsDevice) =
-    if System.IO.File.Exists("savefile.bmp") then
-        let texture = Microsoft.Xna.Framework.Graphics.Texture2D.FromFile(device, "savefile.bmp")
+    if System.IO.File.Exists(fileName) then
+        let texture = Texture2D.FromFile(device, fileName)
     
         texture.GetData(editor.Pixels)
         editor.UpdateTexture()
@@ -125,11 +125,11 @@ let saveFile(editor: DrawingCanvas) =
         , editor.Texture.Height
         , System.Drawing.Imaging.PixelFormat.Format32bppArgb
     )    
-
+    
     for i in 0..editor.Pixels.Length-1 do
         let position = FromArrayIndexToPoint(i, editor.Texture.Width)
         pic.SetPixel(position.Y, position.X, convertColor editor.Pixels.[i])
 
-    pic.Save("savefile.bmp")
+    pic.Save(fileName, Drawing.Imaging.ImageFormat.Png)
     pic.Dispose()
     ()

@@ -1,10 +1,10 @@
 ﻿module Game
 
-open Microsoft.Xna.Framework
 open Microsoft.Xna.Framework.Graphics
-open GameCamera
+open Microsoft.Xna.Framework
 open DrawingCanvasModule
 open PaintModule
+open GameCamera
 
 type MyGame () as this =
     inherit Game()
@@ -12,11 +12,12 @@ type MyGame () as this =
     do this.Content.RootDirectory <- "Content"
     let graphics = new GraphicsDeviceManager(this)
     let Camera = Camera()
-    let area = new Rectangle(0, 0, 100, 100)
 
     let mutable spriteBatch = Unchecked.defaultof<SpriteBatch>
     let mutable editor = Unchecked.defaultof<DrawingCanvas>
     let mutable btn = Unchecked.defaultof<Texture2D>
+    let mutable pixel = Unchecked.defaultof<Texture2D> 
+    let paperColor = Color(30,30,30)
 
     override this.Initialize() =
         spriteBatch <- new SpriteBatch(this.GraphicsDevice)
@@ -29,6 +30,8 @@ type MyGame () as this =
 
     override this.LoadContent() =
         btn <- this.Content.Load<Texture2D>("btn")
+        pixel <- new Texture2D(this.GraphicsDevice, 1,1)
+        pixel.SetData([|Color.White|])        
         ()
  
     override this.Update (gameTime) =
@@ -49,11 +52,17 @@ type MyGame () as this =
         )
 
         spriteBatch.Draw(
+            pixel
+            , editor.Texture.Bounds
+            , paperColor
+        )               
+
+        spriteBatch.Draw(
             editor.Texture
-            , area
+            , editor.Texture.Bounds
             , Color.White
         )
-
+       
         spriteBatch.End()
         ()
 
