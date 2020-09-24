@@ -16,6 +16,7 @@
     <Compile Include="DrawingCanvas.fs" />
     <Compile Include="Camera.fs" />
     <Compile Include="PaintModule.fs" />
+    <Compile Include="PencilPreview.fs" />
     <Compile Include="MyGame.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

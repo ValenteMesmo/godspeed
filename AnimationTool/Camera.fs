@@ -7,7 +7,7 @@ type Camera() =
     let VIRTUAL_WIDTH = 1280.0f
     let VIRTUAL_HEIGHT = 720.0f
     let mutable Transform = Unchecked.defaultof<Matrix>
-    let mutable Location = Vector2(50.0f,50.0f)
+    let mutable Location = Vector2(50.0f, 50.0f)
     member val Rotation = 0.0f with get, set
     member val Zoom = 5.0f with get, set
 

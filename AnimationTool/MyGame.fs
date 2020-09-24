@@ -5,6 +5,7 @@ open Microsoft.Xna.Framework
 open DrawingCanvasModule
 open PaintModule
 open GameCamera
+open PencilPreviewModule
 
 type MyGame () as this =
     inherit Game()
@@ -16,13 +17,15 @@ type MyGame () as this =
     let mutable spriteBatch = Unchecked.defaultof<SpriteBatch>
     let mutable editor = Unchecked.defaultof<DrawingCanvas>
     let mutable btn = Unchecked.defaultof<Texture2D>
-    let mutable pixel = Unchecked.defaultof<Texture2D> 
+    let mutable pixel = Unchecked.defaultof<Texture2D>
+    let mutable pencilPreview = Unchecked.defaultof<PencilPreview>
     let paperColor = Color(30,30,30)
 
     override this.Initialize() =
         spriteBatch <- new SpriteBatch(this.GraphicsDevice)
-
         editor <- DrawingCanvas(this.GraphicsDevice)
+        pencilPreview <- PencilPreview(this.GraphicsDevice, Camera)
+
         loadFile(editor, this.GraphicsDevice)
         this.IsMouseVisible <- true;
         base.Initialize()
@@ -36,6 +39,7 @@ type MyGame () as this =
  
     override this.Update (gameTime) =
         paintOnMouseClick(Camera, editor)
+        pencilPreview.update()
         ()
  
     override this.Draw (gameTime) =
@@ -60,6 +64,12 @@ type MyGame () as this =
         spriteBatch.Draw(
             editor.Texture
             , editor.Texture.Bounds
+            , Color.White
+        )
+
+        spriteBatch.Draw(
+            pencilPreview.Texture
+            , pencilPreview.Area
             , Color.White
         )
        
