@@ -40,6 +40,7 @@ type MyGame () as this =
     override this.Update (gameTime) =
         paintOnMouseClick(Camera, editor)
         pencilPreview.update()
+        updatePencilSize()
         ()
  
     override this.Draw (gameTime) =

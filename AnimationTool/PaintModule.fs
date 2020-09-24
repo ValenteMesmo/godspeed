@@ -8,6 +8,7 @@ open GameCamera
 open System
 
 let mutable previousWorldPosition = Point.Zero 
+let mutable pencilSize = 6
 
 let pointsBetween(a:Point, b:Point) =
     let mutable A = a;
@@ -84,7 +85,7 @@ let paintOnMouseClick(camera:Camera, editor: DrawingCanvas) =
             previousWorldPosition <- mousePosition
 
         for point in pointsBetween(previousWorldPosition, mousePosition) do
-            for pencilPoint in poitsFromPencilArea(6, point) do
+            for pencilPoint in poitsFromPencilArea(pencilSize, point) do
                 if editor.Texture.Bounds.Contains(pencilPoint) then
                     if mouse.RightButton = ButtonState.Pressed then
                         editor.SetColor(pencilPoint, Color.Transparent)
