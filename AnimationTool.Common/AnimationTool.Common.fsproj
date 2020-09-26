@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="Content\font.spritefont" />
+    <Content Include="Content\btn.bmp" />
+    <None Include="Content\ContentAndroid.mgcb" />
+    <None Include="Content\ContentDesktop.mgcb" />
+    <Compile Include="DrawingCanvas.fs" />
+    <Compile Include="Camera.fs" />
+    <Compile Include="InputModule.fs" />
+    <Compile Include="PointUtils.fs" />
+    <Compile Include="TextureIO.fs" />
+    <Compile Include="PaintModule.fs" />
+    <Compile Include="PencilPreview.fs" />
+    <Compile Include="MyGame.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
+    <PackageReference Include="System.Drawing.Common" Version="4.7.0" />
+  </ItemGroup>
+
+</Project>
