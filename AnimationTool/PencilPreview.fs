@@ -12,7 +12,7 @@ type PencilPreview(GraphicsDevice: GraphicsDevice, camera:Camera) =
     let updatePreview() =
         pixels <- [| for i in 1 .. texture.Width * texture.Height -> Color.Transparent |]
            
-        for pencilPoint in PaintModule.poitsFromPencilArea(PaintModule.pencilSize, texture.Bounds.Center) do
+        for pencilPoint in PointUtils.poitsFromPencilArea(PaintModule.pencilSize, texture.Bounds.Center) do
             //this line is duplicated elsewhere
             let actualPosition = pencilPoint.Y * texture.Width + pencilPoint.X
             pixels.[actualPosition] <- Color.Red
@@ -34,11 +34,10 @@ type PencilPreview(GraphicsDevice: GraphicsDevice, camera:Camera) =
     member this.Texture = texture
     member this.Area = area
 
+//todo: move to other file
 let updatePencilSize() =
-    let keyboard = Keyboard.GetState()
+    if Input.plusKeyPress = 1 && PaintModule.pencilSize < 30 then
+        PaintModule.pencilSize <- PaintModule.pencilSize + 3
 
-    if keyboard.IsKeyDown(Keys.Add) then
-        PaintModule.pencilSize <- 6
-
-    else if keyboard.IsKeyDown(Keys.Subtract) then
-        PaintModule.pencilSize <- 0
+    else if Input.minusKeyPress = 1 && PaintModule.pencilSize > 0 then
+        PaintModule.pencilSize <- PaintModule.pencilSize - 3

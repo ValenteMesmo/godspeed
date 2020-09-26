@@ -15,6 +15,9 @@
     </None>
     <Compile Include="DrawingCanvas.fs" />
     <Compile Include="Camera.fs" />
+    <Compile Include="InputModule.fs" />
+    <Compile Include="PointUtils.fs" />
+    <Compile Include="TextureIO.fs" />
     <Compile Include="PaintModule.fs" />
     <Compile Include="PencilPreview.fs" />
     <Compile Include="MyGame.fs" />

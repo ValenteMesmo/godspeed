@@ -26,7 +26,7 @@ type MyGame () as this =
         editor <- DrawingCanvas(this.GraphicsDevice)
         pencilPreview <- PencilPreview(this.GraphicsDevice, Camera)
 
-        loadFile(editor, this.GraphicsDevice)
+        TextureIO.loadFile(editor, this.GraphicsDevice)
         this.IsMouseVisible <- true;
         base.Initialize()
         ()
@@ -38,6 +38,7 @@ type MyGame () as this =
         ()
  
     override this.Update (gameTime) =
+        Input.update()
         paintOnMouseClick(Camera, editor)
         pencilPreview.update()
         updatePencilSize()
@@ -78,6 +79,6 @@ type MyGame () as this =
         ()
 
     override this.OnExiting(sender, args) =
-        saveFile(editor)
+        TextureIO.saveFile(editor)
         base.OnExiting(sender, args);
 
