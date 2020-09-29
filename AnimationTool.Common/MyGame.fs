@@ -38,8 +38,8 @@ type MyGame () as this =
         ()
  
     override this.Update (gameTime) =
-        Input.update()
-        paintOnMouseClick(Camera, editor)
+        Input.update(Camera)
+        paintOnMouseClick(editor)
         pencilPreview.update()
         updatePencilSize()
         ()

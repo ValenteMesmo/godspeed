@@ -1,33 +1,26 @@
 ﻿module PaintModule
 
-open Microsoft.Xna.Framework.Input
 open Microsoft.Xna.Framework
 open DrawingCanvasModule
-open GameCamera
 
 let mutable previousWorldPosition = Point.Zero 
 let mutable pencilSize = 6
 
-let paintOnMouseClick(camera:Camera, editor: DrawingCanvas) =
-    let mouse = Mouse.GetState()
+let paintOnMouseClick(editor: DrawingCanvas) =    
     
-    if mouse.LeftButton = ButtonState.Pressed 
-        || mouse.RightButton = ButtonState.Pressed then
-
-        let mousePosition = camera.GetWorldPosition(mouse.Position)
-
+    if Input.mouseLeftButtonPress > 0 || Input.mouseRightButtonPress > 0 then
         if previousWorldPosition = Point.Zero then
-            previousWorldPosition <- mousePosition
+            previousWorldPosition <- Input.mousePosition
 
-        for point in PointUtils.pointsBetween(previousWorldPosition, mousePosition) do
+        for point in PointUtils.pointsBetween(previousWorldPosition, Input.mousePosition) do
             for pencilPoint in PointUtils.poitsFromPencilArea(pencilSize, point) do
                 if editor.Texture.Bounds.Contains(pencilPoint) then
-                    if mouse.RightButton = ButtonState.Pressed then
+                    if Input.mouseRightButtonPress > 0 then
                         editor.SetColor(pencilPoint, Color.Transparent)
                     else 
                         editor.SetColor(pencilPoint, Color.Red)
 
         editor.UpdateTexture()
-        previousWorldPosition <- mousePosition
+        previousWorldPosition <- Input.mousePosition
     else
         previousWorldPosition <- Point.Zero

@@ -12,16 +12,52 @@ namespace AnimationTool.Android
         , Theme = "@style/Theme.Splash"
         , AlwaysRetainTaskState = true
         , LaunchMode = LaunchMode.SingleInstance
-        , ScreenOrientation = ScreenOrientation.FullUser
-        , ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize | ConfigChanges.ScreenLayout)]
+        , ScreenOrientation = ScreenOrientation.Landscape
+        , ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize)]
     public class Activity1 : Microsoft.Xna.Framework.AndroidGameActivity
     {
+        private MyGame game;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            var g = new MyGame();
-            SetContentView((View)g.Services.GetService(typeof(View)));
-            g.Run();
+            game = new MyGame();
+            SetViewFullScreen();
+            game.Run();
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            SetViewFullScreen();
+        }
+
+        protected override void OnRestart()
+        {
+            base.OnRestart();
+            SetViewFullScreen();
+        }
+
+        private void SetViewFullScreen()
+        {
+            var view = (View)game.Services.GetService(typeof(View));
+            view.SystemUiVisibility = (StatusBarVisibility)
+                (SystemUiFlags.LayoutStable
+                | SystemUiFlags.LayoutHideNavigation
+                | SystemUiFlags.LayoutFullscreen
+                | SystemUiFlags.HideNavigation
+                | SystemUiFlags.Fullscreen
+                | SystemUiFlags.ImmersiveSticky);
+
+            Window.AddFlags(WindowManagerFlags.Fullscreen);
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.P)
+            {
+                Window.Attributes.LayoutInDisplayCutoutMode =
+                LayoutInDisplayCutoutMode.ShortEdges;
+            }
+
+            SetContentView(view);
         }
     }
 }
