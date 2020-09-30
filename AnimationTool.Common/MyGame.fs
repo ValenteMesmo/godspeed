@@ -42,6 +42,7 @@ type MyGame () as this =
         paintOnMouseClick(editor)
         pencilPreview.update()
         updatePencilSize()
+        SaveModule.saveIfButtonClicked(editor)
         ()
  
     override this.Draw (gameTime) =
@@ -75,10 +76,16 @@ type MyGame () as this =
             , Color.White
         )
        
+        spriteBatch.Draw(
+            pixel
+            , SaveModule.saveButtonArea
+            , Color.White
+        )
+
         spriteBatch.End()
         ()
 
-    override this.OnExiting(sender, args) =
-        TextureIO.saveFile(editor)
-        base.OnExiting(sender, args);
+    //override this.OnExiting(sender, args) =
+    //    TextureIO.saveFile(editor)
+        //base.OnExiting(sender, args);
 

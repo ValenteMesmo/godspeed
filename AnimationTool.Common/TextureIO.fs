@@ -4,20 +4,16 @@ open DrawingCanvasModule
 open Microsoft.Xna.Framework
 open Microsoft.Xna.Framework.Graphics
 open System
-type Bitmap = System.Drawing.Bitmap
+open SkiaSharp
 
-let fileName = "savefile.png"
+
+let fileName = System.IO.Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"savefile.png" )
 
 let FromArrayIndexToPoint(index: int, width: int) =
     Point((index / width), index % width)
 
 let convertColor(color:Color) =
-    System.Drawing.Color.FromArgb(
-        int color.A
-        , int color.R
-        , int color.G
-        , int color.B
-    )
+    new SKColor(color.R, color.G, color.B, color.A)
 
 let loadFile(editor: DrawingCanvas, device: GraphicsDevice) =
     if System.IO.File.Exists(fileName) then
@@ -30,17 +26,15 @@ let loadFile(editor: DrawingCanvas, device: GraphicsDevice) =
     ()
 
 let saveFile(editor: DrawingCanvas) =
-    let pic = 
-        new Bitmap(
-                    editor.Texture.Width
-                    , editor.Texture.Height
-                    , System.Drawing.Imaging.PixelFormat.Format32bppArgb
-        )    
+    use bitmap = new SKBitmap(editor.Texture.Width, editor.Texture.Height)
     
     for i in 0..editor.Pixels.Length-1 do
         let position = FromArrayIndexToPoint(i, editor.Texture.Width)
-        pic.SetPixel(position.Y, position.X, convertColor editor.Pixels.[i])
+        bitmap.SetPixel(position.Y, position.X, convertColor editor.Pixels.[i])
 
-    pic.Save(fileName, Drawing.Imaging.ImageFormat.Png)
-    pic.Dispose()
+    use image = SkiaSharp.SKImage.FromBitmap(bitmap)
+    use data = image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 80)
+    use stream = System.IO.File.OpenWrite(fileName)
+    data.SaveTo(stream);
+
     ()
