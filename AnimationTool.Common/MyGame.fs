@@ -93,19 +93,19 @@ type MyGame () as this =
         spriteBatch.Draw(
             save
             , SaveModule.saveButtonArea
-            , Color.White
+            , paperColor
         )
 
         spriteBatch.Draw(
             pencil
             , Pencil2Module.pencilButtonArea
-            , Color.White
+            , if not PaintModule.eraserMode then Color.Red else paperColor
         )
 
         spriteBatch.Draw(
             eraser
             , Pencil2Module.eraserButtonArea
-            , Color.White
+            , if PaintModule.eraserMode then Color.Red else paperColor
         )
 
         spriteBatch.End()
