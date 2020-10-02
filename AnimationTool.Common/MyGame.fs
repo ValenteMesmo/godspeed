@@ -16,8 +16,14 @@ type MyGame () as this =
 
     let mutable spriteBatch = Unchecked.defaultof<SpriteBatch>
     let mutable editor = Unchecked.defaultof<DrawingCanvas>
+
     let mutable btn = Unchecked.defaultof<Texture2D>
+    let mutable eraser = Unchecked.defaultof<Texture2D>
+    let mutable pencil = Unchecked.defaultof<Texture2D>
+    let mutable save = Unchecked.defaultof<Texture2D>
     let mutable pixel = Unchecked.defaultof<Texture2D>
+
+
     let mutable pencilPreview = Unchecked.defaultof<PencilPreview>
     let paperColor = Color(30,30,30)
 
@@ -32,7 +38,14 @@ type MyGame () as this =
         ()
 
     override this.LoadContent() =
-        btn <- this.Content.Load<Texture2D>("btn")
+
+
+        btn <- this.Content.Load<Texture2D>("btn")        
+        pencil <- this.Content.Load<Texture2D>("pencil")
+        eraser <- this.Content.Load<Texture2D>("eraser")
+        save <- this.Content.Load<Texture2D>("save")
+
+
         pixel <- new Texture2D(this.GraphicsDevice, 1,1)
         pixel.SetData([|Color.White|])        
         ()
@@ -43,6 +56,7 @@ type MyGame () as this =
         pencilPreview.update()
         updatePencilSize()
         SaveModule.saveIfButtonClicked(editor)
+        Pencil2Module.togglePencilEraser()
         ()
  
     override this.Draw (gameTime) =
@@ -77,8 +91,20 @@ type MyGame () as this =
         )
        
         spriteBatch.Draw(
-            pixel
+            save
             , SaveModule.saveButtonArea
+            , Color.White
+        )
+
+        spriteBatch.Draw(
+            pencil
+            , Pencil2Module.pencilButtonArea
+            , Color.White
+        )
+
+        spriteBatch.Draw(
+            eraser
+            , Pencil2Module.eraserButtonArea
             , Color.White
         )
 

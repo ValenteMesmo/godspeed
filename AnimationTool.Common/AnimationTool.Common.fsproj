@@ -5,6 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Content\eraser.png" />
+    <Content Include="Content\pencil.png" />
+    <Content Include="Content\save.png" />
     <None Include="Content\font.spritefont" />
     <Content Include="Content\btn.bmp" />
     <None Include="Content\ContentAndroid.mgcb" />
@@ -17,6 +20,7 @@
     <Compile Include="SaveModule.fs" />
     <Compile Include="PaintModule.fs" />
     <Compile Include="PencilPreview.fs" />
+    <Compile Include="Pencil2Module.fs" />
     <Compile Include="MyGame.fs" />
   </ItemGroup>
 

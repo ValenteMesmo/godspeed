@@ -6,14 +6,13 @@ open Microsoft.Xna.Framework.Graphics
 open System
 open SkiaSharp
 
-
-let fileName = System.IO.Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal),"savefile.png" )
+let fileName = System.IO.Path.Combine(Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "savefile.png")
 
 let FromArrayIndexToPoint(index: int, width: int) =
     Point((index / width), index % width)
 
 let convertColor(color:Color) =
-    new SKColor(color.R, color.G, color.B, color.A)
+    SKColor(color.R, color.G, color.B, color.A)
 
 let loadFile(editor: DrawingCanvas, device: GraphicsDevice) =
     if System.IO.File.Exists(fileName) then
