@@ -1,13 +1,12 @@
 ﻿module PaintModule
 
 open Microsoft.Xna.Framework
-open DrawingCanvasModule
 
 let mutable previousWorldPosition = Point.Zero 
 let mutable pencilSize = 6
 let mutable eraserMode = false
 
-let paintOnMouseClick(editor: DrawingCanvas) =    
+let paintOnMouseClick(targetArea: Rectangle, setColor, updateTexture) =
     
     if Input.mouseLeftButtonPress > 0 || Input.mouseRightButtonPress > 0 then
         if previousWorldPosition = Point.Zero then
@@ -15,13 +14,13 @@ let paintOnMouseClick(editor: DrawingCanvas) =
 
         for point in PointUtils.pointsBetween(previousWorldPosition, Input.mousePosition) do
             for pencilPoint in PointUtils.poitsFromPencilArea(pencilSize, point) do
-                if editor.Texture.Bounds.Contains(pencilPoint) then
+                if targetArea.Contains(pencilPoint) then
                     if eraserMode then
-                        editor.SetColor(pencilPoint, Color.Transparent)
+                        setColor(pencilPoint, Color.Transparent)
                     else 
-                        editor.SetColor(pencilPoint, Color.Red)
+                        setColor(pencilPoint, Color.Red)
 
-        editor.UpdateTexture()
+        updateTexture()
         previousWorldPosition <- Input.mousePosition
     else
         previousWorldPosition <- Point.Zero

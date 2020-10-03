@@ -3,7 +3,7 @@
 open Microsoft.Xna.Framework.Graphics
 open Microsoft.Xna.Framework
 open Microsoft.Xna.Framework.Input
-open GameCamera
+open CameraModule
 
 type PencilPreview(GraphicsDevice: GraphicsDevice, camera:Camera) =
     let mutable pixels = Unchecked.defaultof<Color[]>

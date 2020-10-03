@@ -12,7 +12,7 @@ namespace AnimationTool.Android
         , Theme = "@style/Theme.Splash"
         , AlwaysRetainTaskState = true
         , LaunchMode = LaunchMode.SingleInstance
-        , ScreenOrientation = ScreenOrientation.Landscape
+        , ScreenOrientation = ScreenOrientation.Portrait
         , ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize)]
     public class Activity1 : Microsoft.Xna.Framework.AndroidGameActivity
     {
@@ -21,7 +21,7 @@ namespace AnimationTool.Android
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            game = new MyGame();
+            game = new MyGame(true);
             SetViewFullScreen();
             game.Run();
         }

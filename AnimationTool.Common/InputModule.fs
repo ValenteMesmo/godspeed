@@ -2,7 +2,7 @@
 
 open Microsoft.Xna.Framework.Input
 open Microsoft.Xna.Framework
-open GameCamera
+open CameraModule
 open Microsoft.Xna.Framework.Input.Touch
 
 let mutable plusKeyPress = 0

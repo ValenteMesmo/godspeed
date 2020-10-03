@@ -4,65 +4,60 @@ open Microsoft.Xna.Framework.Graphics
 open Microsoft.Xna.Framework
 open DrawingCanvasModule
 open PaintModule
-open GameCamera
+open CameraModule
 open PencilPreviewModule
 
-type MyGame () as this =
+type MyGame (runningOnAndroid) as this =
     inherit Game()
  
     do this.Content.RootDirectory <- "Content"
     let graphics = new GraphicsDeviceManager(this)
-    let Camera = Camera()
+    let Camera = Camera(runningOnAndroid)
 
-    let mutable spriteBatch = Unchecked.defaultof<SpriteBatch>
-    let mutable editor = Unchecked.defaultof<DrawingCanvas>
-
-    let mutable btn = Unchecked.defaultof<Texture2D>
-    let mutable eraser = Unchecked.defaultof<Texture2D>
-    let mutable pencil = Unchecked.defaultof<Texture2D>
-    let mutable save = Unchecked.defaultof<Texture2D>
-    let mutable pixel = Unchecked.defaultof<Texture2D>
-
-
+    let mutable batch = Unchecked.defaultof<SpriteBatch>
+    
     let mutable pencilPreview = Unchecked.defaultof<PencilPreview>
-    let paperColor = Color(30,30,30)
+
+    let objects = System.Collections.Generic.List<GameObjectModule.GameObject>()
 
     override this.Initialize() =
-        spriteBatch <- new SpriteBatch(this.GraphicsDevice)
-        editor <- DrawingCanvas(this.GraphicsDevice)
+        batch <- new SpriteBatch(this.GraphicsDevice)
         pencilPreview <- PencilPreview(this.GraphicsDevice, Camera)
-
-        TextureIO.loadFile(editor, this.GraphicsDevice)
+        
         this.IsMouseVisible <- true;
         base.Initialize()
         ()
 
     override this.LoadContent() =
 
+        Textures.btn <- this.Content.Load<Texture2D>("btn")        
+        Textures.pencil <- this.Content.Load<Texture2D>("pencil")
+        Textures.eraser <- this.Content.Load<Texture2D>("eraser")
+        Textures.save <- this.Content.Load<Texture2D>("save")
 
-        btn <- this.Content.Load<Texture2D>("btn")        
-        pencil <- this.Content.Load<Texture2D>("pencil")
-        eraser <- this.Content.Load<Texture2D>("eraser")
-        save <- this.Content.Load<Texture2D>("save")
+        Textures.pixel <- new Texture2D(this.GraphicsDevice, 1, 1)
+        Textures.pixel.SetData([| Color.White |])
 
+        objects.Add(Buttons.pencil)
+        objects.Add(Buttons.eraser)
+        objects.Add(Buttons.save)
+        objects.Add(DrawingCanvasModule.create(this.GraphicsDevice))
 
-        pixel <- new Texture2D(this.GraphicsDevice, 1,1)
-        pixel.SetData([|Color.White|])        
         ()
  
     override this.Update (gameTime) =
-        Input.update(Camera)
-        paintOnMouseClick(editor)
+        Input.update(Camera)        
         pencilPreview.update()
         updatePencilSize()
-        SaveModule.saveIfButtonClicked(editor)
-        Pencil2Module.togglePencilEraser()
+
+        for object in objects do
+            object.Update()
         ()
  
     override this.Draw (gameTime) =
         this.GraphicsDevice.Clear(Color.Black);
 
-        spriteBatch.Begin(
+        batch.Begin(
             SpriteSortMode.Deferred
             , BlendState.NonPremultiplied
             , SamplerState.PointClamp
@@ -72,46 +67,16 @@ type MyGame () as this =
             , Camera.GetTransformation(this.GraphicsDevice)
         )
 
-        spriteBatch.Draw(
-            pixel
-            , editor.Texture.Bounds
-            , paperColor
-        )               
+        for object in objects do
+            object.Draw(batch)
+        ()
 
-        spriteBatch.Draw(
-            editor.Texture
-            , editor.Texture.Bounds
-            , Color.White
-        )
-
-        spriteBatch.Draw(
+        batch.Draw(
             pencilPreview.Texture
             , pencilPreview.Area
             , Color.White
         )
-       
-        spriteBatch.Draw(
-            save
-            , SaveModule.saveButtonArea
-            , paperColor
-        )
 
-        spriteBatch.Draw(
-            pencil
-            , Pencil2Module.pencilButtonArea
-            , if not PaintModule.eraserMode then Color.Red else paperColor
-        )
-
-        spriteBatch.Draw(
-            eraser
-            , Pencil2Module.eraserButtonArea
-            , if PaintModule.eraserMode then Color.Red else paperColor
-        )
-
-        spriteBatch.End()
+        batch.End()
         ()
-
-    //override this.OnExiting(sender, args) =
-    //    TextureIO.saveFile(editor)
-        //base.OnExiting(sender, args);
 

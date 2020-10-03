@@ -1,11 +1,13 @@
-﻿module GameCamera
+﻿module CameraModule
 open Microsoft.Xna.Framework
 open Microsoft.Xna.Framework.Graphics
 open System
 
-type Camera() = 
+type Camera(runningOnAndroid) =    
     let VIRTUAL_WIDTH = 1280.0f
     let VIRTUAL_HEIGHT = 720.0f
+    let screenWidth = if runningOnAndroid then VIRTUAL_HEIGHT else VIRTUAL_WIDTH
+    let screenHeight = if runningOnAndroid then VIRTUAL_WIDTH else VIRTUAL_HEIGHT
     let mutable Transform = Unchecked.defaultof<Matrix>
     let mutable Location = Vector2(50.0f, 50.0f)
     member val Rotation = 0.0f with get, set
@@ -16,8 +18,8 @@ type Camera() =
             Matrix.CreateTranslation(-Location.X, -Location.Y, 0.0f)
             * Matrix.CreateRotationZ(this.Rotation)
             * Matrix.CreateScale(
-                this.Zoom * (float32 graphicsDevice.Viewport.Width / VIRTUAL_WIDTH)
-                , this.Zoom * (float32 graphicsDevice.Viewport.Height / VIRTUAL_HEIGHT)
+                this.Zoom * (float32 graphicsDevice.Viewport.Width / screenWidth)
+                , this.Zoom * (float32 graphicsDevice.Viewport.Height / screenHeight)
                 , 1.0f)
             * Matrix.CreateTranslation(
                 (float32 graphicsDevice.Viewport.Width) * 0.5f

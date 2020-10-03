@@ -1,6 +1,5 @@
 ﻿module TextureIO
 
-open DrawingCanvasModule
 open Microsoft.Xna.Framework
 open Microsoft.Xna.Framework.Graphics
 open System
@@ -14,26 +13,18 @@ let FromArrayIndexToPoint(index: int, width: int) =
 let convertColor(color:Color) =
     SKColor(color.R, color.G, color.B, color.A)
 
-let loadFile(editor: DrawingCanvas, device: GraphicsDevice) =
+let loadFile(cloneTexture, device: GraphicsDevice) =
     if System.IO.File.Exists(fileName) then
         let texture = Texture2D.FromFile(device, fileName)
     
-        texture.GetData(editor.Pixels)
-        editor.UpdateTexture()
+        cloneTexture(texture)
 
         texture.Dispose()
     ()
 
-let saveFile(editor: DrawingCanvas) =
-    use bitmap = new SKBitmap(editor.Texture.Width, editor.Texture.Height)
+let saveFile(getBitmap) =
     
-    for i in 0..editor.Pixels.Length-1 do
-        let position = FromArrayIndexToPoint(i, editor.Texture.Width)
-        bitmap.SetPixel(position.Y, position.X, convertColor editor.Pixels.[i])
-
-    use image = SkiaSharp.SKImage.FromBitmap(bitmap)
-    use data = image.Encode(SkiaSharp.SKEncodedImageFormat.Png, 80)
-    use stream = System.IO.File.OpenWrite(fileName)
-    data.SaveTo(stream);
+    if Events.Save = Events.Done then
+        Events.Save <- Events.Requested    
 
     ()
