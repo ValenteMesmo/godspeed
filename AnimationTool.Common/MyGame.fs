@@ -2,8 +2,6 @@
 
 open Microsoft.Xna.Framework.Graphics
 open Microsoft.Xna.Framework
-open DrawingCanvasModule
-open PaintModule
 open CameraModule
 open PencilPreviewModule
 
@@ -15,7 +13,7 @@ type MyGame (runningOnAndroid) as this =
     let Camera = Camera(runningOnAndroid)
 
     let mutable batch = Unchecked.defaultof<SpriteBatch>
-    
+    [<System.Obsolete("Turn pecilPreview into a GameObject")>]
     let mutable pencilPreview = Unchecked.defaultof<PencilPreview>
 
     let objects = System.Collections.Generic.List<GameObjectModule.GameObject>()
@@ -46,12 +44,13 @@ type MyGame (runningOnAndroid) as this =
         ()
  
     override this.Update (gameTime) =
-        Input.update(Camera)        
+        Input.update(Camera)
         pencilPreview.update()
         updatePencilSize()
 
         for object in objects do
             object.Update()
+
         ()
  
     override this.Draw (gameTime) =

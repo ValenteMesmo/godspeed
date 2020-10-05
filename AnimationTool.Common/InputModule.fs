@@ -10,24 +10,23 @@ let mutable minusKeyPress = 0
 let mutable mousePosition = Point.Zero
 let mutable mouseLeftButtonPress = 0
 let mutable mouseRightButtonPress = 0
-let touches = System.Collections.Generic.List<Point>()
+let mutable touchPosition : Option<Point> = None
 
 let update(camera: Camera) =
     let keyboardState = Keyboard.GetState()
     let mouse = Mouse.GetState()
-    let _touches = TouchPanel.GetState()
+    let _touches = TouchPanel.GetState()    
   
-    touches.Clear()    
     if _touches.Count > 0 then
         for touch in _touches do
             mousePosition <- camera.GetWorldPosition(touch.Position)
-            touches.Add(mousePosition)
+            touchPosition <- Some mousePosition
         mouseLeftButtonPress <- mouseLeftButtonPress + 1
     else
         mousePosition <- camera.GetWorldPosition(mouse.Position)
-
+        touchPosition <- None 
         if mouse.LeftButton = ButtonState.Pressed then
-            touches.Add(mousePosition)
+            touchPosition <- Some mousePosition
             mouseLeftButtonPress <- mouseLeftButtonPress + 1
         else
             mouseLeftButtonPress <- 0

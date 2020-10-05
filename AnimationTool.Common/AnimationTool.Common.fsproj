@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Colors.fs" />
-    <Compile Include="Events.fs" />
-    <Compile Include="Textures.fs" />
-    <Compile Include="GameObjectModule.fs" />
     <Content Include="Content\eraser.png" />
     <Content Include="Content\pencil.png" />
     <Content Include="Content\save.png" />
@@ -16,6 +12,10 @@
     <Content Include="Content\btn.bmp" />
     <None Include="Content\ContentAndroid.mgcb" />
     <None Include="Content\ContentDesktop.mgcb" />
+    <Compile Include="Colors.fs" />
+    <Compile Include="Events.fs" />
+    <Compile Include="Textures.fs" />
+    <Compile Include="GameObjectModule.fs" />
     <Compile Include="Camera.fs" />
     <Compile Include="InputModule.fs" />
     <Compile Include="PointUtils.fs" />

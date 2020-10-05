@@ -2,4 +2,5 @@
 
 open Microsoft.Xna.Framework
 
-let paperColor = Color(30,30,30)
+let paper = Color(30,30,30)
+let selection = Color.Red

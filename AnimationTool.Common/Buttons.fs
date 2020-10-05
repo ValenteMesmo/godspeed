@@ -1,7 +1,6 @@
 ﻿module Buttons
 
 open Microsoft.Xna.Framework
-open System.Linq
 open GameObjectModule
 
 let pencilButtonArea = Rectangle(-50, 50, 10, 10)
@@ -11,39 +10,47 @@ let saveButtonArea = Rectangle(-50, 0, 10, 10)
 let pencil = GameObject()
 
 pencil.Update <- fun () ->
-    if Input.touches.Any(fun f -> pencilButtonArea.Contains(f)) then
-        PaintModule.eraserMode <- false
-
+    match Input.touchPosition with
+        | Some touch -> if pencilButtonArea.Contains(touch) then PaintModule.eraserMode <- false
+        | None -> ()
+        
 pencil.Draw <- fun spriteBatch ->
     spriteBatch.Draw(
         Textures.pencil
         , pencilButtonArea
-        , if not PaintModule.eraserMode then Color.Red else Colors.paperColor
+        , if not PaintModule.eraserMode then Color.Red else Colors.paper
     )
+
+
+
 
 let eraser = GameObject()
 
 eraser.Update <- fun () ->
-    if Input.touches.Any(fun f -> eraserButtonArea.Contains(f)) then
-        PaintModule.eraserMode <- true
+    match Input.touchPosition with
+    | Some touch -> if eraserButtonArea.Contains(touch) then PaintModule.eraserMode <- true
+    | None -> ()
 
 eraser.Draw <- fun spriteBatch ->
     spriteBatch.Draw(
         Textures.eraser
         , eraserButtonArea
-        , if PaintModule.eraserMode then Color.Red else Colors.paperColor
+        , if PaintModule.eraserMode then Color.Red else Colors.paper
     )
+
+
 
 
 let save = GameObject()
 
 save.Update <- fun () ->
-    if Input.touches.Any(fun f -> saveButtonArea.Contains(f)) then
-        TextureIO.saveFile()
+    match Input.touchPosition with
+    | Some touch -> if saveButtonArea.Contains(touch) then TextureIO.saveFile()
+    | None -> ()
 
 save.Draw <- fun spriteBatch ->
     spriteBatch.Draw(
         Textures.save
         , saveButtonArea
-        , Colors.paperColor
+        , Colors.paper
     )
