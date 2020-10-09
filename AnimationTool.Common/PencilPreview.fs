@@ -5,11 +5,14 @@ open Microsoft.Xna.Framework
 open Microsoft.Xna.Framework.Input
 open CameraModule
 
-type PencilPreview(GraphicsDevice: GraphicsDevice, camera:Camera) =
+let create(graphicsDevice: GraphicsDevice, camera:Camera) = 
     let mutable pixels = Unchecked.defaultof<Color[]>
     let mutable texture = Unchecked.defaultof<Texture2D>
     let mutable area = Rectangle.Empty
     let mutable previousPencilSize = 0
+
+    let obj = GameObjectModule.GameObject()
+
     let updatePreview() =
         if previousPencilSize <> PaintModule.pencilSize then
             pixels <- [| for i in 1 .. texture.Width * texture.Height -> Color.Transparent |]
@@ -21,26 +24,33 @@ type PencilPreview(GraphicsDevice: GraphicsDevice, camera:Camera) =
 
             texture.SetData(pixels)
         previousPencilSize <- PaintModule.pencilSize
-
-    do
-        texture <- new Texture2D(GraphicsDevice, 100, 100)
-        updatePreview()
-        area.Width <- texture.Width
-        area.Height <- texture.Height
-        ()
-
-    member this.update() =
-        updatePreview()
         area.Location <- camera.GetWorldPosition(Mouse.GetState().Position) - texture.Bounds.Center
+
+    //should not be here
+    let updatePencilSize() =
+        if Input.plusKeyPress = 1 && PaintModule.pencilSize < 30 then
+            PaintModule.pencilSize <- PaintModule.pencilSize + 3
+    
+        else if Input.minusKeyPress = 1 && PaintModule.pencilSize > 0 then
+            PaintModule.pencilSize <- PaintModule.pencilSize - 3
+
+    texture <- new Texture2D(graphicsDevice, 100, 100)
+    updatePreview()
+    area.Width <- texture.Width
+    area.Height <- texture.Height
+
+    let update() =
+        updatePreview()
+        updatePencilSize()
         ()
 
-    member this.Texture = texture
-    member this.Area = area
-
-//todo: move to other file
-let updatePencilSize() =
-    if Input.plusKeyPress = 1 && PaintModule.pencilSize < 30 then
-        PaintModule.pencilSize <- PaintModule.pencilSize + 3
-
-    else if Input.minusKeyPress = 1 && PaintModule.pencilSize > 0 then
-        PaintModule.pencilSize <- PaintModule.pencilSize - 3
+    let draw(batch : SpriteBatch) = 
+        batch.Draw(
+            texture
+            , area
+            , Color.White
+        )
+    obj.Update <- update
+    obj.Draw <- draw
+            
+    obj

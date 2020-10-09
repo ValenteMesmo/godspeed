@@ -1,9 +1,7 @@
 ﻿module Game
-
 open Microsoft.Xna.Framework.Graphics
 open Microsoft.Xna.Framework
 open CameraModule
-open PencilPreviewModule
 
 type MyGame (runningOnAndroid) as this =
     inherit Game()
@@ -13,14 +11,11 @@ type MyGame (runningOnAndroid) as this =
     let Camera = Camera(runningOnAndroid)
 
     let mutable batch = Unchecked.defaultof<SpriteBatch>
-    [<System.Obsolete("Turn pecilPreview into a GameObject")>]
-    let mutable pencilPreview = Unchecked.defaultof<PencilPreview>
 
     let objects = System.Collections.Generic.List<GameObjectModule.GameObject>()
 
     override this.Initialize() =
         batch <- new SpriteBatch(this.GraphicsDevice)
-        pencilPreview <- PencilPreview(this.GraphicsDevice, Camera)
         
         this.IsMouseVisible <- true;
         base.Initialize()
@@ -40,13 +35,12 @@ type MyGame (runningOnAndroid) as this =
         objects.Add(Buttons.eraser)
         objects.Add(Buttons.save)
         objects.Add(DrawingCanvasModule.create(this.GraphicsDevice))
+        objects.Add(PencilPreviewModule.create(this.GraphicsDevice, Camera))        
 
         ()
  
     override this.Update (gameTime) =
         Input.update(Camera)
-        pencilPreview.update()
-        updatePencilSize()
 
         for object in objects do
             object.Update()
@@ -69,12 +63,6 @@ type MyGame (runningOnAndroid) as this =
         for object in objects do
             object.Draw(batch)
         ()
-
-        batch.Draw(
-            pencilPreview.Texture
-            , pencilPreview.Area
-            , Color.White
-        )
 
         batch.End()
         ()
