@@ -23,7 +23,7 @@ let create(graphicsDevice: GraphicsDevice) =
     let updateTexture() =
         texture.SetData(pixels)
 
-    let save () =
+    let save() =
         use bitmap = new SKBitmap(texture.Width, texture.Height)
     
         for i in 0..pixels.Length-1 do
@@ -61,8 +61,6 @@ let create(graphicsDevice: GraphicsDevice) =
     let cloneTexure (loadedTexture: Texture2D) =
         loadedTexture.GetData(pixels)
         updateTexture()
-
-    
 
     TextureIO.loadFile(cloneTexure, graphicsDevice)
 

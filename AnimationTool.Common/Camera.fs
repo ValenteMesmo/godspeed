@@ -3,6 +3,9 @@ open Microsoft.Xna.Framework
 open Microsoft.Xna.Framework.Graphics
 open System
 
+let DESKTOP_PORTRAIT_WIDTH = 320
+let DESKTOP_PORTRAIT_HEIGHT = 480
+
 type Camera(runningOnAndroid) =    
     let VIRTUAL_WIDTH = 1280.0f
     let VIRTUAL_HEIGHT = 720.0f
