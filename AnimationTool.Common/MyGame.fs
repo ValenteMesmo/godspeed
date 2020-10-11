@@ -17,12 +17,14 @@ type MyGame (runningOnAndroid) as this =
 
     override this.Initialize() =
         batch <- new SpriteBatch(this.GraphicsDevice)
+        #if DEBUG
         if runningOnAndroid then
             graphics.PreferredBackBufferHeight <- 
                 int CameraModule.DESKTOP_PORTRAIT_HEIGHT
             graphics.PreferredBackBufferWidth <- 
                 int CameraModule.DESKTOP_PORTRAIT_WIDTH
             graphics.ApplyChanges()
+        #endif
         this.IsMouseVisible <- true;
         base.Initialize()
         ()
@@ -38,10 +40,10 @@ type MyGame (runningOnAndroid) as this =
         Textures.pixel.SetData([| Color.White |])
 
         objects.Add(DrawingCanvasModule.create(this.GraphicsDevice))
-        objects.Add(PencilPreviewModule.create(this.GraphicsDevice, Camera))
         objects.Add(Buttons.createPencil(runningOnAndroid))
         objects.Add(Buttons.createEraser(runningOnAndroid))
         objects.Add(Buttons.createSave(runningOnAndroid))
+        objects.Add(PencilPreviewModule.create(this.GraphicsDevice, Camera))
 
         ()
  
