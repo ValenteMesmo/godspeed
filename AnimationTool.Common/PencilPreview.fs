@@ -20,19 +20,11 @@ let create(graphicsDevice: GraphicsDevice, camera:Camera) =
             for pencilPoint in PointUtils.poitsFromPencilArea(PaintModule.pencilSize, texture.Bounds.Center) do
                 //this line is duplicated elsewhere
                 let actualPosition = pencilPoint.Y * texture.Width + pencilPoint.X
-                pixels.[actualPosition] <- Color.Red
+                pixels.[actualPosition] <- Color.White
 
             texture.SetData(pixels)
         previousPencilSize <- PaintModule.pencilSize
-        area.Location <- camera.GetWorldPosition(Mouse.GetState().Position) - texture.Bounds.Center
-
-    //should not be here
-    let updatePencilSize() =
-        if Input.plusKeyPress = 1 && PaintModule.pencilSize < 30 then
-            PaintModule.pencilSize <- PaintModule.pencilSize + 3
-    
-        else if Input.minusKeyPress = 1 && PaintModule.pencilSize > 0 then
-            PaintModule.pencilSize <- PaintModule.pencilSize - 3
+        area.Location <- camera.GetWorldPosition(Mouse.GetState().Position) - texture.Bounds.Center    
 
     texture <- new Texture2D(graphicsDevice, 100, 100)
     updatePreview()
@@ -41,14 +33,13 @@ let create(graphicsDevice: GraphicsDevice, camera:Camera) =
 
     let update() =
         updatePreview()
-        updatePencilSize()
         ()
 
     let draw(batch : SpriteBatch) = 
         batch.Draw(
             texture
             , area
-            , Color.White
+            , PaintModule.pencilColor
         )
     obj.Update <- update
     obj.Draw <- draw

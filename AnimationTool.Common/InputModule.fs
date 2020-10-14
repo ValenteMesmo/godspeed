@@ -5,8 +5,12 @@ open Microsoft.Xna.Framework
 open CameraModule
 open Microsoft.Xna.Framework.Input.Touch
 
+let mutable num1KeyPress = false
+let mutable num2KeyPress = false
+
 let mutable plusKeyPress = 0
 let mutable minusKeyPress = 0
+
 let mutable mousePosition = Point.Zero
 let mutable mouseLeftButtonPress = 0
 let mutable mouseRightButtonPress = 0
@@ -45,6 +49,9 @@ let update(camera: Camera) =
         minusKeyPress <- minusKeyPress + 1
     else
         minusKeyPress <- 0
+
+    num1KeyPress <- keyboardState.IsKeyDown(Keys.D1)
+    num2KeyPress <- keyboardState.IsKeyDown(Keys.D2)
         
     ()
 

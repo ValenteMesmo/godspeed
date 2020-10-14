@@ -19,10 +19,8 @@ type MyGame (runningOnAndroid) as this =
         batch <- new SpriteBatch(this.GraphicsDevice)
         #if DEBUG
         if runningOnAndroid then
-            graphics.PreferredBackBufferHeight <- 
-                int CameraModule.DESKTOP_PORTRAIT_HEIGHT
-            graphics.PreferredBackBufferWidth <- 
-                int CameraModule.DESKTOP_PORTRAIT_WIDTH
+            graphics.PreferredBackBufferHeight <- int CameraModule.DESKTOP_PORTRAIT_HEIGHT
+            graphics.PreferredBackBufferWidth <- int CameraModule.DESKTOP_PORTRAIT_WIDTH
             graphics.ApplyChanges()
         #endif
         this.IsMouseVisible <- true;
@@ -44,6 +42,7 @@ type MyGame (runningOnAndroid) as this =
         objects.Add(Buttons.createEraser(runningOnAndroid))
         objects.Add(Buttons.createSave(runningOnAndroid))
         objects.Add(PencilPreviewModule.create(this.GraphicsDevice, Camera))
+        objects.Add(PencilOptions.create())
 
         ()
  

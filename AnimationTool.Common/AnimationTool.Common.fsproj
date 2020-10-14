@@ -24,6 +24,7 @@
     <Compile Include="DrawingCanvas.fs" />
     <Compile Include="PencilPreview.fs" />
     <Compile Include="Buttons.fs" />
+    <Compile Include="PencilOptions.fs" />
     <Compile Include="MyGame.fs" />
   </ItemGroup>
 

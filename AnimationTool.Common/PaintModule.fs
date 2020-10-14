@@ -4,6 +4,7 @@ open Microsoft.Xna.Framework
 
 let mutable previousWorldPosition = Point.Zero 
 let mutable pencilSize = 6
+let mutable pencilColor = Color.White
 let mutable eraserMode = false
 
 let paintOnMouseClick(targetArea: Rectangle, setColor, updateTexture) =
@@ -18,7 +19,7 @@ let paintOnMouseClick(targetArea: Rectangle, setColor, updateTexture) =
                     if eraserMode then
                         setColor(pencilPoint, Color.Transparent)
                     else 
-                        setColor(pencilPoint, Color.Red)
+                        setColor(pencilPoint, pencilColor)
 
         updateTexture()
         previousWorldPosition <- Input.mousePosition
