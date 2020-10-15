@@ -7,6 +7,8 @@ open Microsoft.Xna.Framework.Input.Touch
 
 let mutable num1KeyPress = false
 let mutable num2KeyPress = false
+let mutable num3KeyPress = false
+let mutable num4KeyPress = false
 
 let mutable plusKeyPress = 0
 let mutable minusKeyPress = 0
@@ -52,6 +54,8 @@ let update(camera: Camera) =
 
     num1KeyPress <- keyboardState.IsKeyDown(Keys.D1)
     num2KeyPress <- keyboardState.IsKeyDown(Keys.D2)
+    num3KeyPress <- keyboardState.IsKeyDown(Keys.D3)
+    num4KeyPress <- keyboardState.IsKeyDown(Keys.D4)
         
     ()
 

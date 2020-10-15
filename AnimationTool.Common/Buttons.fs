@@ -11,7 +11,7 @@ let createPencil runningOnAndroid =
     
     pencil.Update <- fun () ->
         match Input.touchPosition with
-            | Some touch -> if pencilButtonArea.Contains(touch) then PaintModule.eraserMode <- false
+            | Some touch -> if pencilButtonArea.Contains(touch) then PaintModule.pencilColor <- Colors.dark
             | None -> ()
     ()
 
@@ -19,7 +19,7 @@ let createPencil runningOnAndroid =
         spriteBatch.Draw(
             Textures.pencil
             , pencilButtonArea
-            , if not PaintModule.eraserMode then Color.Red else Colors.paper
+            , if PaintModule.pencilColor = Colors.eraser then Colors.paper else Color.Red
         )
 
     pencil
@@ -30,14 +30,14 @@ let createEraser runningOnAndroid =
     
     eraser.Update <- fun () ->
         match Input.touchPosition with
-        | Some touch -> if eraserButtonArea.Contains(touch) then PaintModule.eraserMode <- true
+        | Some touch -> if eraserButtonArea.Contains(touch) then PaintModule.pencilColor <- Colors.eraser
         | None -> ()
     
     eraser.Draw <- fun spriteBatch ->
         spriteBatch.Draw(
             Textures.eraser
             , eraserButtonArea
-            , if PaintModule.eraserMode then Color.Red else Colors.paper
+            , if PaintModule.pencilColor = Colors.eraser then Color.Red else Colors.paper
         )
 
     eraser

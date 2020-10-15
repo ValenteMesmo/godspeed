@@ -1,8 +1,6 @@
 ﻿module PencilOptions
 
 open Microsoft.Xna.Framework
-
-//should not be here
 let updatePencilSize() =
     if Input.plusKeyPress = 1 && PaintModule.pencilSize < 30 then
         PaintModule.pencilSize <- PaintModule.pencilSize + 3
@@ -12,9 +10,16 @@ let updatePencilSize() =
 
 let updatePencilColor() =
     if Input.num1KeyPress then
-        PaintModule.pencilColor <- Color.White
+        PaintModule.pencilColor <- Colors.eraser
+
     else if Input.num2KeyPress then
-        PaintModule.pencilColor <- Color.Black
+        PaintModule.pencilColor <- Colors.light
+
+    else if Input.num3KeyPress then
+        PaintModule.pencilColor <- Colors.gray
+
+    else if Input.num4KeyPress then
+        PaintModule.pencilColor <- Colors.dark
 
 let create() =
     let obj = GameObjectModule.GameObject()
@@ -23,6 +28,4 @@ let create() =
             updatePencilColor()
             updatePencilSize()
     obj
-
-//eu ia fazer um update aqui, apetando os numeros ia mudar as cores
 
