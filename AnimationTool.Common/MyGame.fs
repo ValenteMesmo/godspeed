@@ -5,29 +5,37 @@ open CameraModule
 
 type MyGame (runningOnAndroid) as this =
     inherit Game()
- 
+
     do 
         this.Content.RootDirectory <- "Content"
-    let graphics = new GraphicsDeviceManager(this)
-    let Camera = Camera(runningOnAndroid)
+        
+    let CameraWorld = Camera(runningOnAndroid)
+    let CameraGui = Camera(runningOnAndroid)
 
-    let mutable batch = Unchecked.defaultof<SpriteBatch>
+    let graphics = new GraphicsDeviceManager(this)
+    let mutable batchGui = Unchecked.defaultof<SpriteBatch>
+    let mutable batchWorld = Unchecked.defaultof<SpriteBatch>
 
     let objects = System.Collections.Generic.List<GameObjectModule.GameObject>()
 
     override this.Initialize() =
-        batch <- new SpriteBatch(this.GraphicsDevice)
+        batchGui <- new SpriteBatch(this.GraphicsDevice)
+        batchWorld <- new SpriteBatch(this.GraphicsDevice)        
+       
         #if DEBUG
         if runningOnAndroid then
             graphics.PreferredBackBufferHeight <- int CameraModule.DESKTOP_PORTRAIT_HEIGHT
             graphics.PreferredBackBufferWidth <- int CameraModule.DESKTOP_PORTRAIT_WIDTH
             graphics.ApplyChanges()
         #endif
+
         this.IsMouseVisible <- true;
         base.Initialize()
         ()
 
     override this.LoadContent() =
+        CameraWorld.SetLocation(Vector2(50.0f, 50.0f))
+        CameraWorld.SetZoom(5.0f)
 
         Textures.btn <- this.Content.Load<Texture2D>("btn")        
         Textures.pencil <- this.Content.Load<Texture2D>("pencil")
@@ -41,13 +49,13 @@ type MyGame (runningOnAndroid) as this =
         objects.Add(Buttons.createPencil(runningOnAndroid))
         objects.Add(Buttons.createEraser(runningOnAndroid))
         objects.Add(Buttons.createSave(runningOnAndroid))
-        objects.Add(PencilPreviewModule.create(this.GraphicsDevice, Camera))
+        objects.Add(PencilPreviewModule.create(this.GraphicsDevice))
         objects.Add(PencilOptions.create())
 
         ()
  
     override this.Update (gameTime) =
-        Input.update(Camera)
+        Input.update(CameraWorld, CameraGui)
 
         for object in objects do
             object.Update()
@@ -56,21 +64,31 @@ type MyGame (runningOnAndroid) as this =
  
     override this.Draw (gameTime) =
         this.GraphicsDevice.Clear(Color.Black);
-
-        batch.Begin(
+        
+        batchWorld.Begin(
             SpriteSortMode.Deferred
             , BlendState.NonPremultiplied
             , SamplerState.PointClamp
             , DepthStencilState.Default
             , RasterizerState.CullNone
             , null
-            , Camera.GetTransformation(this.GraphicsDevice)
+            , CameraWorld.GetTransformation(this.GraphicsDevice)
+        )
+        batchGui.Begin(
+            SpriteSortMode.Deferred
+            , BlendState.NonPremultiplied
+            , SamplerState.PointClamp
+            , DepthStencilState.Default
+            , RasterizerState.CullNone
+            , null
+            , CameraGui.GetTransformation(this.GraphicsDevice)
         )
 
         for object in objects do
-            object.Draw(batch)
+            object.Draw(batchWorld, batchGui)
         ()
 
-        batch.End()
+        batchWorld.End()
+        batchGui.End()
         ()
 

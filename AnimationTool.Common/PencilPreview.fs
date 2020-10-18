@@ -2,10 +2,8 @@
 
 open Microsoft.Xna.Framework.Graphics
 open Microsoft.Xna.Framework
-open Microsoft.Xna.Framework.Input
-open CameraModule
 
-let create(graphicsDevice: GraphicsDevice, camera:Camera) = 
+let create(graphicsDevice: GraphicsDevice) = 
     let mutable pixels = Unchecked.defaultof<Color[]>
     let mutable texture = Unchecked.defaultof<Texture2D>
     let mutable area = Rectangle.Empty
@@ -24,7 +22,7 @@ let create(graphicsDevice: GraphicsDevice, camera:Camera) =
 
             texture.SetData(pixels)
         previousPencilSize <- PaintModule.pencilSize
-        area.Location <- camera.GetWorldPosition(Mouse.GetState().Position) - texture.Bounds.Center    
+        area.Location <- Input.mouseWorldPosition - texture.Bounds.Center    
 
     texture <- new Texture2D(graphicsDevice, 100, 100)
     updatePreview()
@@ -35,8 +33,8 @@ let create(graphicsDevice: GraphicsDevice, camera:Camera) =
         updatePreview()
         ()
 
-    let draw(batch : SpriteBatch) = 
-        batch.Draw(
+    let draw(world :SpriteBatch,gui :SpriteBatch) = 
+        world.Draw(
             texture
             , area
             , PaintModule.pencilColor

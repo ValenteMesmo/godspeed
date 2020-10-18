@@ -13,26 +13,33 @@ let mutable num4KeyPress = false
 let mutable plusKeyPress = 0
 let mutable minusKeyPress = 0
 
-let mutable mousePosition = Point.Zero
 let mutable mouseLeftButtonPress = 0
 let mutable mouseRightButtonPress = 0
-let mutable touchPosition : Option<Point> = None
+let mutable mouseWorldPosition = Point.Zero
+let mutable mouseGuiPosition = Point.Zero
+let mutable touchWorldPosition : Option<Point> = None
+let mutable touchGuiPosition : Option<Point> = None
 
-let update(camera: Camera) =
+let update(worldCamera: Camera, guiCamera: Camera) =
     let keyboardState = Keyboard.GetState()
     let mouse = Mouse.GetState()
     let _touches = TouchPanel.GetState()    
   
-    if _touches.Count > 0 then
-        for touch in _touches do
-            mousePosition <- camera.GetWorldPosition(touch.Position)
-            touchPosition <- Some mousePosition
+    if _touches.Count > 0 then        
+        mouseWorldPosition <- worldCamera.GetRelativePosition(_touches.[0].Position)
+        touchWorldPosition <- Some mouseWorldPosition
+        touchGuiPosition <- Some mouseGuiPosition
+        mouseGuiPosition <- guiCamera.GetRelativePosition(_touches.[0].Position)
+            
         mouseLeftButtonPress <- mouseLeftButtonPress + 1
     else
-        mousePosition <- camera.GetWorldPosition(mouse.Position)
-        touchPosition <- None 
+        mouseWorldPosition <- worldCamera.GetRelativePosition(mouse.Position)
+        touchWorldPosition <- None 
+        mouseGuiPosition <- guiCamera.GetRelativePosition(mouse.Position)
+        touchGuiPosition <- None 
         if mouse.LeftButton = ButtonState.Pressed then
-            touchPosition <- Some mousePosition
+            touchWorldPosition <- Some mouseWorldPosition
+            touchGuiPosition <- Some mouseGuiPosition
             mouseLeftButtonPress <- mouseLeftButtonPress + 1
         else
             mouseLeftButtonPress <- 0

@@ -42,13 +42,13 @@ let create(graphicsDevice: GraphicsDevice) =
             save()
             Events.Save <- Events.Done
 
-    obj.Draw <- fun batch ->
-        batch.Draw(
+    obj.Draw <- fun (world,gui) ->
+        world.Draw(
             Textures.pixel
             , texture.Bounds
             , Colors.paper
         )
-        batch.Draw(
+        world.Draw(
             texture
             , texture.Bounds
             , Color.White
