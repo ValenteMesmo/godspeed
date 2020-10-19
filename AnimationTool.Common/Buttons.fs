@@ -4,14 +4,33 @@ open Microsoft.Xna.Framework
 open GameObjectModule
 
 let size = 100
-let bot_Y = size*5
-let left_X = -250
+let bot_Y = 510
+let left_X = -330
 
-let createPencil runningOnAndroid = 
-    //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height
-    //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width
+let createPencilGray runningOnAndroid = 
 
-    let pencilButtonArea = if runningOnAndroid then Rectangle(-250, bot_Y, size, size) else Rectangle(-50, 50, size, size)
+    let pencilButtonArea = if runningOnAndroid then Rectangle(left_X + size + size/2, bot_Y - size - size/2, size, size) else Rectangle(-50, 50, size, size)
+    let pencil = GameObject()
+    
+    pencil.Update <- fun () ->
+        match Input.touchGuiPosition with
+            | Some touch -> if pencilButtonArea.Contains(touch) then PaintModule.pencilColor <- Colors.gray
+            | None -> ()
+    ()
+
+    pencil.Draw <- fun (world,gui) ->
+        gui.Draw(
+            Textures.pencil
+            , pencilButtonArea
+            , if PaintModule.pencilColor = Colors.gray then Color.Red else Colors.paper
+        )
+
+    pencil
+
+
+let createPencilDark runningOnAndroid = 
+
+    let pencilButtonArea = if runningOnAndroid then Rectangle(left_X + size + size/2, bot_Y, size, size) else Rectangle(-50, 50, size, size)
     let pencil = GameObject()
     
     pencil.Update <- fun () ->
@@ -24,13 +43,35 @@ let createPencil runningOnAndroid =
         gui.Draw(
             Textures.pencil
             , pencilButtonArea
-            , if PaintModule.pencilColor = Colors.eraser then Colors.paper else Color.Red
+            , if PaintModule.pencilColor = Colors.dark then Color.Red else Colors.paper
+        )
+
+    pencil
+
+let createPencilLight runningOnAndroid = 
+    //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height
+    //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width
+
+    let pencilButtonArea = if runningOnAndroid then Rectangle(left_X, bot_Y - size - size/2, size, size) else Rectangle(-50, 50, size, size)
+    let pencil = GameObject()
+    
+    pencil.Update <- fun () ->
+        match Input.touchGuiPosition with
+            | Some touch -> if pencilButtonArea.Contains(touch) then PaintModule.pencilColor <- Colors.light
+            | None -> ()
+    ()
+
+    pencil.Draw <- fun (world,gui) ->
+        gui.Draw(
+            Textures.pencil
+            , pencilButtonArea
+            , if PaintModule.pencilColor = Colors.light then Color.Red else Colors.paper
         )
 
     pencil
 
 let createEraser runningOnAndroid =
-    let eraserButtonArea = if runningOnAndroid then Rectangle(left_X + size*2, bot_Y, size, size) else Rectangle(-50, 100, size, size)
+    let eraserButtonArea = if runningOnAndroid then Rectangle(left_X , bot_Y, size, size) else Rectangle(-50, 100, size, size)
     let eraser = GameObject()
     
     eraser.Update <- fun () ->

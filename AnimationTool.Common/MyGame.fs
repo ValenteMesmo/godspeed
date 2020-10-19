@@ -46,7 +46,9 @@ type MyGame (runningOnAndroid) as this =
         Textures.pixel.SetData([| Color.White |])
 
         objects.Add(DrawingCanvasModule.create(this.GraphicsDevice))
-        objects.Add(Buttons.createPencil(runningOnAndroid))
+        objects.Add(Buttons.createPencilLight(runningOnAndroid))
+        objects.Add(Buttons.createPencilGray(runningOnAndroid))        
+        objects.Add(Buttons.createPencilDark(runningOnAndroid))
         objects.Add(Buttons.createEraser(runningOnAndroid))
         objects.Add(Buttons.createSave(runningOnAndroid))
         objects.Add(PencilPreviewModule.create(this.GraphicsDevice))
