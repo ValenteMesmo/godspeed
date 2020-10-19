@@ -10,6 +10,7 @@ let create(graphicsDevice: GraphicsDevice) =
 
     let mutable pixels = Unchecked.defaultof<Color[]>
     let mutable texture = Unchecked.defaultof<Texture2D>
+    let mutable frame = Rectangle.Empty
 
     let setColor(position: Point, color: Color) =
         let actualPosition = position.Y * texture.Width + position.X
@@ -45,9 +46,15 @@ let create(graphicsDevice: GraphicsDevice) =
     obj.Draw <- fun (world,gui) ->
         world.Draw(
             Textures.pixel
-            , texture.Bounds
+            , frame
             , Colors.paper
         )
+        world.Draw(
+            Textures.pixel
+            , texture.Bounds
+            , Color.Black
+        )
+
         world.Draw(
             texture
             , texture.Bounds
@@ -55,6 +62,7 @@ let create(graphicsDevice: GraphicsDevice) =
         )
 
     texture <- new Texture2D(graphicsDevice, 100, 100)
+    frame <- Rectangle(-6,-6,112,112)
     pixels <- [| for i in 1 .. texture.Width * texture.Height -> Color.Transparent |]
     texture.SetData(pixels)
 
