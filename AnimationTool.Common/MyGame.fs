@@ -2,15 +2,16 @@
 open Microsoft.Xna.Framework.Graphics
 open Microsoft.Xna.Framework
 open CameraModule
+open Config
 
-type MyGame (runningOnAndroid) as this =
+type MyGame (env : GameEnviroment, mode: ScreenMode) as this =
     inherit Game()
 
     do 
         this.Content.RootDirectory <- "Content"
         
-    let CameraWorld = Camera(runningOnAndroid)
-    let CameraGui = Camera(runningOnAndroid)
+    let CameraWorld = Camera(mode)
+    let CameraGui = Camera(mode)
 
     let graphics = new GraphicsDeviceManager(this)
     let mutable batchGui = Unchecked.defaultof<SpriteBatch>
@@ -22,12 +23,10 @@ type MyGame (runningOnAndroid) as this =
         batchGui <- new SpriteBatch(this.GraphicsDevice)
         batchWorld <- new SpriteBatch(this.GraphicsDevice)        
        
-        #if DEBUG
-        if runningOnAndroid then
+        if env = Config.Desktop && mode = ScreenMode.Portrait then
             graphics.PreferredBackBufferHeight <- int CameraModule.DESKTOP_PORTRAIT_HEIGHT
             graphics.PreferredBackBufferWidth <- int CameraModule.DESKTOP_PORTRAIT_WIDTH
             graphics.ApplyChanges()
-        #endif
 
         this.IsMouseVisible <- true;
         base.Initialize()
@@ -46,11 +45,11 @@ type MyGame (runningOnAndroid) as this =
         Textures.pixel.SetData([| Color.White |])
 
         objects.Add(DrawingCanvasModule.create(this.GraphicsDevice))
-        objects.Add(Buttons.createPencilLight(runningOnAndroid))
-        objects.Add(Buttons.createPencilGray(runningOnAndroid))        
-        objects.Add(Buttons.createPencilDark(runningOnAndroid))
-        objects.Add(Buttons.createEraser(runningOnAndroid))
-        objects.Add(Buttons.createSave(runningOnAndroid))
+        objects.Add(Buttons.createPencilLight(mode))
+        objects.Add(Buttons.createPencilGray(mode))        
+        objects.Add(Buttons.createPencilDark(mode))
+        objects.Add(Buttons.createEraser(mode))
+        objects.Add(Buttons.createSave(mode))
         objects.Add(PencilPreviewModule.create(this.GraphicsDevice))
         objects.Add(PencilOptions.create())
 

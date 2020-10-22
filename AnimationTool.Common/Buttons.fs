@@ -7,9 +7,9 @@ let size = 100
 let bot_Y = 510
 let left_X = -330
 
-let createPencilGray runningOnAndroid = 
+let createPencilGray(mode : Config.ScreenMode) = 
 
-    let pencilButtonArea = if runningOnAndroid then Rectangle(left_X + size + size/2, bot_Y - size - size/2, size, size) else Rectangle(-50, 50, size, size)
+    let pencilButtonArea = if mode = Config.Portrait then Rectangle(left_X + size + size/2, bot_Y - size - size/2, size, size) else Rectangle(-50, 50, size, size)
     let pencil = GameObject()
     
     pencil.Update <- fun () ->
@@ -28,9 +28,9 @@ let createPencilGray runningOnAndroid =
     pencil
 
 
-let createPencilDark runningOnAndroid = 
+let createPencilDark(mode : Config.ScreenMode) =
 
-    let pencilButtonArea = if runningOnAndroid then Rectangle(left_X + size + size/2, bot_Y, size, size) else Rectangle(-50, 50, size, size)
+    let pencilButtonArea = if mode = Config.Portrait then Rectangle(left_X + size + size/2, bot_Y, size, size) else Rectangle(-50, 50, size, size)
     let pencil = GameObject()
     
     pencil.Update <- fun () ->
@@ -48,11 +48,9 @@ let createPencilDark runningOnAndroid =
 
     pencil
 
-let createPencilLight runningOnAndroid = 
-    //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height
-    //GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width
+let createPencilLight(mode : Config.ScreenMode) =
 
-    let pencilButtonArea = if runningOnAndroid then Rectangle(left_X, bot_Y - size - size/2, size, size) else Rectangle(-50, 50, size, size)
+    let pencilButtonArea = if mode = Config.Portrait then Rectangle(left_X, bot_Y - size - size/2, size, size) else Rectangle(-50, 50, size, size)
     let pencil = GameObject()
     
     pencil.Update <- fun () ->
@@ -70,8 +68,8 @@ let createPencilLight runningOnAndroid =
 
     pencil
 
-let createEraser runningOnAndroid =
-    let eraserButtonArea = if runningOnAndroid then Rectangle(left_X , bot_Y, size, size) else Rectangle(-50, 100, size, size)
+let createEraser(mode : Config.ScreenMode) =
+    let eraserButtonArea = if mode = Config.Portrait then Rectangle(left_X , bot_Y, size, size) else Rectangle(-50, 100, size, size)
     let eraser = GameObject()
     
     eraser.Update <- fun () ->
@@ -88,8 +86,8 @@ let createEraser runningOnAndroid =
 
     eraser
 
-let createSave runningOnAndroid =
-    let saveButtonArea = if runningOnAndroid then Rectangle(left_X + size*4, bot_Y, size, size) else Rectangle(-50, 0, size, size)
+let createSave(mode : Config.ScreenMode) =
+    let saveButtonArea = if mode = Config.Portrait then Rectangle(left_X + size*4, bot_Y, size, size) else Rectangle(-50, 0, size, size)
 
     let save = GameObject()
 

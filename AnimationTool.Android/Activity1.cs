@@ -21,7 +21,7 @@ namespace AnimationTool.Android
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            game = new MyGame(true);
+            game = new MyGame(Config.GameEnviroment.Android, Config.ScreenMode.Portrait);
             SetViewFullScreen();
             game.Run();
         }

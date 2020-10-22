@@ -12,6 +12,7 @@
     <Content Include="Content\btn.bmp" />
     <None Include="Content\ContentAndroid.mgcb" />
     <None Include="Content\ContentDesktop.mgcb" />
+    <Compile Include="Config.fs" />
     <Compile Include="Colors.fs" />
     <Compile Include="Events.fs" />
     <Compile Include="Textures.fs" />

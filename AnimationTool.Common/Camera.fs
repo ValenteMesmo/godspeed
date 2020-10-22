@@ -2,6 +2,7 @@
 open Microsoft.Xna.Framework
 open Microsoft.Xna.Framework.Graphics
 open System
+open Config
 
 let DESKTOP_PORTRAIT_WIDTH = 320
 let DESKTOP_PORTRAIT_HEIGHT = 480
@@ -9,11 +10,11 @@ let DESKTOP_PORTRAIT_HEIGHT = 480
 let mutable screenWidth = DESKTOP_PORTRAIT_WIDTH
 let mutable screenHeight = DESKTOP_PORTRAIT_HEIGHT
 
-type Camera(runningOnAndroid) =    
+type Camera(mode : ScreenMode) =
     let VIRTUAL_WIDTH = 1280.0f
     let VIRTUAL_HEIGHT = 720.0f
-    let screenWidth = if runningOnAndroid then VIRTUAL_HEIGHT else VIRTUAL_WIDTH
-    let screenHeight = if runningOnAndroid then VIRTUAL_WIDTH else VIRTUAL_HEIGHT
+    let screenWidth = if mode = Config.Portrait then VIRTUAL_HEIGHT else VIRTUAL_WIDTH
+    let screenHeight = if mode = Config.Portrait then VIRTUAL_WIDTH else VIRTUAL_HEIGHT
     let mutable Transform = Unchecked.defaultof<Matrix>
     let mutable Location = Vector2(0.0f, 0.0f)
     let mutable Rotation = 0.0f
