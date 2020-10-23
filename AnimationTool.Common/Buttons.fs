@@ -87,7 +87,7 @@ let createEraser(mode : Config.ScreenMode) =
     eraser
 
 let createSave(mode : Config.ScreenMode) =
-    let saveButtonArea = if mode = Config.Portrait then Rectangle(left_X + size*4, bot_Y, size, size) else Rectangle(-50, 0, size, size)
+    let saveButtonArea = if mode = Config.Portrait then Rectangle(200, -600, size, size) else Rectangle(-50, 0, size, size)
 
     let save = GameObject()
 
