@@ -23,7 +23,7 @@ let mutable touchGuiPosition : Option<Point> = None
 let update(worldCamera: Camera, guiCamera: Camera) =
     let keyboardState = Keyboard.GetState()
     let mouse = Mouse.GetState()
-    let _touches = TouchPanel.GetState()    
+    let _touches = TouchPanel.GetState()
   
     if _touches.Count > 0 then        
         mouseWorldPosition <- worldCamera.GetRelativePosition(_touches.[0].Position)

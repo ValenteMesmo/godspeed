@@ -1,12 +1,13 @@
 ﻿module PencilOptions
 
 open Microsoft.Xna.Framework
-let updatePencilSize() =
-    if Input.plusKeyPress = 1 && PaintModule.pencilSize < 30 then
-        PaintModule.pencilSize <- PaintModule.pencilSize + 3
 
-    else if Input.minusKeyPress = 1 && PaintModule.pencilSize > 0 then
-        PaintModule.pencilSize <- PaintModule.pencilSize - 3
+let updatePencilSize() =
+    if Input.plusKeyPress = 1 then
+        PaintModule.increasePencilSize()
+
+    else if Input.minusKeyPress = 1 then
+        PaintModule.decreasePencilSize()
 
 let updatePencilColor() =
     if Input.num1KeyPress then

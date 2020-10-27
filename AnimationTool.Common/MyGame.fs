@@ -50,6 +50,9 @@ type MyGame (env : GameEnviroment, mode: ScreenMode) as this =
         objects.Add(Buttons.createPencilDark(mode))
         objects.Add(Buttons.createEraser(mode))
         objects.Add(Buttons.createSave(mode))
+        objects.Add(Buttons.createIncreaseSizeButton(mode))
+        objects.Add(Buttons.createDecreaseSizeButton(mode))
+        
         objects.Add(PencilPreviewModule.create(this.GraphicsDevice))
         objects.Add(PencilOptions.create())
 

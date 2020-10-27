@@ -22,7 +22,7 @@ let create(graphicsDevice: GraphicsDevice) =
 
             texture.SetData(pixels)
         previousPencilSize <- PaintModule.pencilSize
-        area.Location <- Input.mouseWorldPosition - texture.Bounds.Center    
+        area.Location <- Input.mouseWorldPosition - texture.Bounds.Center
 
     texture <- new Texture2D(graphicsDevice, 100, 100)
     updatePreview()
@@ -33,7 +33,7 @@ let create(graphicsDevice: GraphicsDevice) =
         updatePreview()
         ()
 
-    let draw(world :SpriteBatch,gui :SpriteBatch) = 
+    let draw(world :SpriteBatch, gui :SpriteBatch) = 
         world.Draw(
             texture
             , area

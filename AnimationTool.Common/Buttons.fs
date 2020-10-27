@@ -104,3 +104,42 @@ let createSave(mode : Config.ScreenMode) =
         )
 
     save
+
+
+let createIncreaseSizeButton(mode : Config.ScreenMode) =
+    let buttonArea = if mode = Config.Portrait then Rectangle(200, bot_Y- size - size/2, size, size) else Rectangle(-50, 0, size, size)
+
+    let btn = GameObject()
+
+    btn.Update <- fun () ->
+        match Input.touchGuiPosition with
+        | Some touch -> if buttonArea.Contains(touch) then PaintModule.increasePencilSize()
+        | None -> ()
+
+    btn.Draw <- fun (world, gui) ->
+        gui.Draw(
+            Textures.pencil
+            , buttonArea
+            , Colors.paper
+        )
+
+    btn
+
+let createDecreaseSizeButton(mode : Config.ScreenMode) =
+    let buttonArea = if mode = Config.Portrait then Rectangle(200, bot_Y, size, size) else Rectangle(-50, 0, size, size)
+
+    let btn = GameObject()
+
+    btn.Update <- fun () ->
+        match Input.touchGuiPosition with
+        | Some touch -> if buttonArea.Contains(touch) then PaintModule.decreasePencilSize()
+        | None -> ()
+
+    btn.Draw <- fun (world, gui) ->
+        gui.Draw(
+            Textures.pencil
+            , buttonArea
+            , Colors.paper
+        )
+
+    btn
